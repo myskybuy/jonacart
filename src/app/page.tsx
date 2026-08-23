@@ -78,47 +78,50 @@ export default function HomePage() {
         <SiteHeader />
 
       <section className="hero" aria-label="Featured gifts">
-        <div className="hero-stage">
-          {heroProducts.length ? (
-            heroProducts.map((product, index) => (
-              <div
-                key={product.id}
-                className={`hero-bg-slide${index === heroIndex ? " active" : ""}`}
-                aria-hidden={index !== heroIndex}
-              >
-                <SafeImage
-                  src={product.image}
-                  alt=""
-                  loading={index === 0 ? "eager" : "lazy"}
-                />
-              </div>
-            ))
-          ) : (
-            <div className="hero-bg-slide active" aria-hidden>
-              <SafeImage src="/images/placeholder.svg" alt="" loading="eager" />
+        <div className="hero-layout">
+          <div className="hero-panel">
+            <p className="hero-brand">jonacart</p>
+            <h1>
+              Gifts that look
+              <br />
+              <span className="accent">like you meant it.</span>
+            </h1>
+            <p className="hero-lead">
+              Real product photos, clear ₹ pricing, and Cash on Delivery — gifts curated for Indian
+              occasions.
+            </p>
+            <div className="hero-actions">
+              <Link href="/shop" className="btn btn-accent">
+                Shop all gifts
+              </Link>
+              <Link href="/shop?sale=1" className="btn btn-outline hero-btn-ghost">
+                View deals
+              </Link>
             </div>
-          )}
-          <div className="hero-scrim" aria-hidden />
-        </div>
+          </div>
 
-        <div className="hero-content">
-          <p className="hero-brand">jonacart</p>
-          <h1>
-            Gifts that look
-            <br />
-            <span className="accent">like you meant it.</span>
-          </h1>
-          <p className="hero-lead">
-            Real product photos, clear ₹ pricing, and Cash on Delivery — gifts curated for Indian
-            occasions.
-          </p>
-          <div className="hero-actions">
-            <Link href="/shop" className="btn btn-accent">
-              Shop all gifts
-            </Link>
-            <Link href="/shop?sale=1" className="btn btn-outline hero-btn-ghost">
-              View deals
-            </Link>
+          <div className="hero-media">
+            <div className="hero-stage">
+              {heroProducts.length ? (
+                heroProducts.map((product, index) => (
+                  <div
+                    key={product.id}
+                    className={`hero-bg-slide${index === heroIndex ? " active" : ""}`}
+                    aria-hidden={index !== heroIndex}
+                  >
+                    <SafeImage
+                      src={product.image}
+                      alt=""
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="hero-bg-slide active" aria-hidden>
+                  <SafeImage src="/images/placeholder.svg" alt="" loading="eager" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

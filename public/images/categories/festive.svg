@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#fff4e8"/>
+  <circle cx="400" cy="420" r="180" fill="#c0245a"/>
+  <circle cx="400" cy="420" r="110" fill="#ffd27a"/>
+  <path d="M400 250 L420 360 L540 360 L445 425 L480 540 L400 470 L320 540 L355 425 L260 360 L380 360 Z" fill="#2a1338"/>
+  <text x="400" y="700" text-anchor="middle" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#2a1338">Festive</text>
+</svg>

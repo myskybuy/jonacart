@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import FestivePopup from "@/components/FestivePopup";
 import ProductCard, { Product } from "@/components/ProductCard";
+import SafeImage from "@/components/SafeImage";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
@@ -16,6 +17,14 @@ const heroAllowedCategories = [
   "Kids Gifts",
 ];
 
+const CATEGORY_FALLBACKS: Record<string, string> = {
+  "Personalised Gifts": "/images/categories/personalised.svg",
+  "Festive Gifts": "/images/categories/festive.svg",
+  "Gourmet Hampers": "/images/categories/hampers.svg",
+  "Lifestyle Gifts": "/images/categories/lifestyle.svg",
+  "Kids Gifts": "/images/categories/kids.svg",
+};
+
 export default function HomePage() {
   const [categories, setCategories] = useState<Array<{ id: number; name: string; image: string }>>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,10 +34,23 @@ export default function HomePage() {
   useEffect(() => {
     fetch("/api/categories")
       .then((r) => r.json())
-      .then(setCategories);
+      .then((data: Array<{ id: number; name: string; image: string }>) => {
+        if (!Array.isArray(data)) return;
+        setCategories(
+          data.map((c) => ({
+            ...c,
+            image: c.image?.startsWith("/") || c.image?.startsWith("http")
+              ? c.image.includes("jonacart.com/wp-content")
+                ? CATEGORY_FALLBACKS[c.name] || "/images/placeholder.svg"
+                : c.image
+              : CATEGORY_FALLBACKS[c.name] || "/images/placeholder.svg",
+          })),
+        );
+      });
     fetch("/api/products")
       .then((r) => r.json())
       .then((data: Product[]) => {
+        if (!Array.isArray(data)) return;
         setProducts(data);
         setHeroProducts(data.filter((p) => heroAllowedCategories.includes(p.category) && p.image));
       });
@@ -55,103 +77,96 @@ export default function HomePage() {
       >
         <SiteHeader />
 
-      <section className="hero">
-        <div className="hero-inner">
-          <div>
-            <h1>
-              Gifts that look
-              <br />
-              <span className="accent">like you meant it.</span>
-            </h1>
-            <p>
-              Shop occasion-ready gifts with real product photos, rupee pricing, add-to-cart checkout and
-              Cash on Delivery for Indian customers.
-            </p>
-            <div className="hero-actions">
-              <Link href="/shop" className="btn btn-accent">
-                Shop all gifts
-              </Link>
-              <Link href="/shop?sale=1" className="btn btn-outline">
-                View deals
-              </Link>
+      <section className="hero" aria-label="Featured gifts">
+        <div className="hero-stage">
+          {heroProducts.length ? (
+            heroProducts.map((product, index) => (
+              <div
+                key={product.id}
+                className={`hero-bg-slide${index === heroIndex ? " active" : ""}`}
+                aria-hidden={index !== heroIndex}
+              >
+                <SafeImage
+                  src={product.image}
+                  alt=""
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="hero-bg-slide active" aria-hidden>
+              <SafeImage src="/images/placeholder.svg" alt="" loading="eager" />
             </div>
-            <div className="hero-stats">
-              <div>
-                <strong>80+</strong>
-                <span>curated gifting picks</span>
-              </div>
-              <div>
-                <strong>COD</strong>
-                <span>pay on delivery</span>
-              </div>
-              <div>
-                <strong>₹</strong>
-                <span>transparent pricing</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero-visual bag-carousel">
-            {currentHero ? (
-              <>
-                <div id="hero-carousel">
-                  {heroProducts.map((product, index) => {
-                    const currentPrice = product.salePrice ?? product.price;
-                    return (
-                      <Link
-                        key={product.id}
-                        href={`/product/${product.id}`}
-                        className={`hero-slide ${index === heroIndex ? "active" : ""}`}
-                      >
-                        <div className="hero-slide-media">
-                          <img src={product.image} alt={product.name} loading={index === 0 ? "eager" : "lazy"} />
-                        </div>
-                        <div className="hero-product-info">
-                          <span>{product.brand || "Johnacart"}</span>
-                          <strong>{product.name}</strong>
-                          <div className="hero-price">
-                            <b>₹{Number(currentPrice).toLocaleString("en-IN")}</b>
-                            {product.salePrice < product.price ? (
-                              <del>₹{Number(product.price).toLocaleString("en-IN")}</del>
-                            ) : null}
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-                <button
-                  className="carousel-btn carousel-prev"
-                  type="button"
-                  aria-label="Previous product"
-                  onClick={() =>
-                    setHeroIndex((i) => (i - 1 + heroProducts.length) % heroProducts.length)
-                  }
-                >
-                  ‹
-                </button>
-                <button
-                  className="carousel-btn carousel-next"
-                  type="button"
-                  aria-label="Next product"
-                  onClick={() => setHeroIndex((i) => (i + 1) % heroProducts.length)}
-                >
-                  ›
-                </button>
-                <div className="carousel-dots">
-                  {heroProducts.map((_, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      className={index === heroIndex ? "active" : ""}
-                      aria-label={`Go to product ${index + 1}`}
-                      onClick={() => setHeroIndex(index)}
-                    />
-                  ))}
-                </div>
-              </>
-            ) : null}
+          )}
+          <div className="hero-scrim" aria-hidden />
+        </div>
+
+        <div className="hero-content">
+          <p className="hero-brand">jonacart</p>
+          <h1>
+            Gifts that look
+            <br />
+            <span className="accent">like you meant it.</span>
+          </h1>
+          <p className="hero-lead">
+            Real product photos, clear ₹ pricing, and Cash on Delivery — gifts curated for Indian
+            occasions.
+          </p>
+          <div className="hero-actions">
+            <Link href="/shop" className="btn btn-accent">
+              Shop all gifts
+            </Link>
+            <Link href="/shop?sale=1" className="btn btn-outline hero-btn-ghost">
+              View deals
+            </Link>
           </div>
         </div>
+
+        {currentHero ? (
+          <div className="hero-rail">
+            <Link href={`/product/${currentHero.id}`} className="hero-rail-main">
+              <span className="hero-rail-brand">{currentHero.brand || "jonacart"}</span>
+              <strong className="hero-rail-name">{currentHero.name}</strong>
+              <span className="hero-rail-price">
+                ₹{Number(currentHero.salePrice ?? currentHero.price).toLocaleString("en-IN")}
+                {currentHero.salePrice < currentHero.price ? (
+                  <del>₹{Number(currentHero.price).toLocaleString("en-IN")}</del>
+                ) : null}
+              </span>
+            </Link>
+            <div className="hero-rail-controls">
+              <button
+                type="button"
+                className="hero-rail-btn"
+                aria-label="Previous product"
+                onClick={() =>
+                  setHeroIndex((i) => (i - 1 + heroProducts.length) % heroProducts.length)
+                }
+              >
+                ‹
+              </button>
+              <div className="hero-rail-dots">
+                {heroProducts.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={index === heroIndex ? "active" : ""}
+                    aria-label={`Go to product ${index + 1}`}
+                    onClick={() => setHeroIndex(index)}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                className="hero-rail-btn"
+                aria-label="Next product"
+                onClick={() => setHeroIndex((i) => (i + 1) % heroProducts.length)}
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        ) : null}
       </section>
 
       <section className="section">
@@ -166,7 +181,7 @@ export default function HomePage() {
             {categories.map((c) => (
               <Link key={c.id} className="category-card" href={`/shop?category=${encodeURIComponent(c.name)}`}>
                 <div className="cc-thumb">
-                  <img src={c.image} alt={c.name} />
+                  <SafeImage src={c.image || CATEGORY_FALLBACKS[c.name] || "/images/placeholder.svg"} alt={c.name} />
                 </div>
                 <div className="cc-name">{c.name}</div>
               </Link>

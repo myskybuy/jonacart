@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import AuthModal from "@/components/AuthModal";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
@@ -63,19 +64,29 @@ export default function CheckoutPage() {
       setDiscount(data.discount);
       setAppliedCode(data.code);
       setCouponMsg(`Coupon applied: -₹${data.discount}`);
+      toast.success(`Coupon applied: -₹${data.discount}`);
     } else {
       setDiscount(0);
       setAppliedCode("");
-      setCouponMsg(data.error || "Invalid coupon");
+      const msg = data.error || "Invalid coupon";
+      setCouponMsg(msg);
+      toast.error(msg);
     }
   }
 
   async function placeOrder() {
     if (!user) return;
-    if (!cart.length) return alert("Cart is empty");
-    if (!name || !phone || !address) return alert("Please fill all required fields");
+    if (!cart.length) {
+      toast.error("Cart is empty");
+      return;
+    }
+    if (!name || !phone || !address) {
+      toast.error("Please fill all required fields");
+      return;
+    }
     if (paymentMethod === "RAZORPAY" && !razorpayEnabled) {
-      return alert("Online payment is not configured yet. Choose Cash on Delivery or contact support.");
+      toast.error("Online payment is not configured yet. Choose Cash on Delivery or contact support.");
+      return;
     }
 
     const payload = {
@@ -95,14 +106,17 @@ export default function CheckoutPage() {
       body: JSON.stringify(payload),
     });
     const data = await res.json();
-    if (!res.ok) return alert(data.error || "Order failed");
+    if (!res.ok) {
+      toast.error(data.error || "Order failed");
+      return;
+    }
 
     if (paymentMethod === "RAZORPAY" && data.razorpayOrderId && data.key) {
       const rzp = new window.Razorpay({
         key: data.key,
         amount: data.amount * 100,
         currency: "INR",
-        name: "Johnacart",
+        name: "jonacart",
         description: `Order #${data.orderId}`,
         order_id: data.razorpayOrderId,
         handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
@@ -120,8 +134,9 @@ export default function CheckoutPage() {
           if (verify.ok) {
             clearCart();
             setSuccessId(verifyData.orderId);
+            toast.success("Payment successful — order placed");
           } else {
-            alert(verifyData.error || "Payment verification failed");
+            toast.error(verifyData.error || "Payment verification failed");
           }
         },
         prefill: { name, email, contact: phone },
@@ -133,6 +148,7 @@ export default function CheckoutPage() {
 
     clearCart();
     setSuccessId(data.orderId);
+    toast.success("Order placed successfully");
   }
 
   if (successId) {

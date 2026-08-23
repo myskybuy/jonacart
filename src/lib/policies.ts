@@ -1,11 +1,12 @@
 export const COMPANY = {
-  name: "JOHNACART  PRIVATE LIMITED",
-  brand: "Johnacart",
+  name: "JOHNACART PRIVATE LIMITED",
+  brand: "jonacart",
   address:
     "2nd Floor, Building/Flat No. 208, Rangila Park, Sudama Chowk, Mota Varachha, Surat, Gujarat – 394101",
   phone: "+91-8460681042",
   email: "hello@Johnacart.com",
   website: "https://jonacart.com",
+  supportHours: "Monday–Saturday, 10:00 AM – 6:30 PM IST (closed on public holidays)",
 };
 
 export type PolicyContent = {
@@ -17,280 +18,262 @@ export type PolicyContent = {
 export const policies: Record<string, PolicyContent> = {
   "return-policy": {
     title: "Return Policy",
-    intro: `At ${COMPANY.brand}, we want you to be confident in every purchase — whether you are buying a personalised keepsake, a gourmet hamper, a home décor piece, or a festive gift set. This Return Policy explains when and how you may return eligible products purchased from our online store.`,
+    intro: `At ${COMPANY.brand}, a return should never feel like a fight. Here's exactly how it works.`,
     sections: [
       {
-        heading: "1. Return window",
-        body: "You may request a return within 7 (seven) calendar days from the date of delivery, as shown on your order confirmation / courier delivery record. Requests raised after this window may be declined unless the product is defective or we delivered an incorrect item.",
+        heading: "1. You have 7 days",
+        body: "From the date your order is marked delivered, you have 7 calendar days to request a return. This window is checked against the courier's delivery record. If a product arrives defective or we sent the wrong item, we're flexible beyond this window — just reach out.",
       },
       {
-        heading: "2. Eligible products",
-        body: "Returns are accepted for unused, unwashed, undamaged products sold as personalised gifts, home décor, gourmet hampers and festive gift products, when all of the following conditions are met:",
+        heading: "2. What makes a product eligible",
+        body: "To qualify for return, the item needs to still be in the condition it arrived in:",
         bullets: [
-          "The item is in original condition with all tags, labels, dust bags, and brand packaging intact.",
-          "The product has not been used outdoors, soiled, scratched, or altered in any way.",
-          "You provide the original invoice / order number and clear photos if we request them.",
-          "The product matches the SKU and description of the item you ordered.",
+          "Unused, unworn, unwashed — no signs it's been taken out for a spin.",
+          "All original tags, labels, dust bags and brand packaging still attached.",
+          "No scratches, stains, or alterations of any kind.",
+          "Your order number or invoice available, along with photos if we ask for them.",
+          "The item itself matches what's on your order (correct SKU).",
         ],
       },
       {
-        heading: "3. Non-returnable items",
-        body: "For hygiene, safety and commercial reasons, the following are generally not eligible for return unless they arrive damaged or incorrect:",
-        bullets: [
-          "Personalised or custom-made items (if offered).",
-          "Clearance / final-sale products marked as non-returnable at checkout.",
-          "Products without original packaging, missing accessories, or with signs of use.",
-          "Gift cards or promotional freebies (if any).",
-        ],
+        heading: "3. What we can't take back",
+        body: 'A few categories stay outside our return process for hygiene, safety or commercial reasons — mainly personalised or made-to-order items, anything marked "final sale" at checkout, products missing their original packaging or accessories, and gift cards or freebies bundled with an order. The one exception: if any of these arrive damaged or wrong, we\'ll still make it right.',
       },
       {
-        heading: "4. How to initiate a return",
-        body: `Email ${COMPANY.email} or call ${COMPANY.phone} with your order number, product name, reason for return, and photos of the item and packaging. Our support team will respond within 1–2 business days with approval status and reverse pickup / self-ship instructions where applicable.`,
+        heading: "4. Starting a return",
+        body: `Email ${COMPANY.email} or call ${COMPANY.phone} with your order number, the product name, why you're returning it, and a couple of photos. We aim to respond within 1–2 business days with next steps — either a reverse pickup or self-ship instructions, depending on your location.`,
       },
       {
-        heading: "5. Inspection & approval",
-        body: "Once we receive the returned product, our warehouse team inspects it. Approved returns are processed under our Refund Policy. If the return is rejected (for example, due to use, missing tags, or incomplete packaging), we will inform you and may ship the item back at your cost.",
+        heading: "5. What happens after we get it back",
+        body: "Once the product reaches our warehouse, our team inspects it before approving anything. If it clears inspection, we move it into our Refund Policy process. If it doesn't (used, tags removed, packaging missing), we'll let you know and may need to ship it back to you at your own cost.",
       },
       {
-        heading: "6. Wrong / damaged / defective items",
-        body: "If you receive a damaged, defective, or incorrect product, please contact us within 48 hours of delivery with unboxing photos/videos. We will arrange a replacement or return–refund as per stock availability, at no extra shipping cost to you in verified cases.",
+        heading: "6. Damaged, defective or wrong item?",
+        body: "This is the one case we treat differently. Contact us within 48 hours of delivery with unboxing photos or a short video, and we'll sort a replacement or a return-and-refund — at no shipping cost to you once we've verified the issue.",
       },
       {
         heading: "7. Company details",
-        body: `Returns are handled by ${COMPANY.name}, ${COMPANY.address}. For any dispute relating to returns, Indian law applies and courts at Surat, Gujarat shall have jurisdiction.`,
+        body: `Returns are handled by ${COMPANY.name}. Any dispute relating to a return falls under Indian law, with courts at Surat, Gujarat having jurisdiction.`,
       },
     ],
   },
 
   "refund-policy": {
     title: "Refund Policy",
-    intro: `This Refund Policy describes how ${COMPANY.brand} processes refunds for cancelled orders, approved returns, failed deliveries, and payment-related issues on products such as personalised gifts, home décor, gourmet hampers and festive giftrance items purchased through our website.`,
+    intro: "Once a refund is approved, here's exactly where your money goes and how long it takes.",
     sections: [
       {
-        heading: "1. When refunds are issued",
-        body: "Refunds are initiated after we confirm one of the following:",
+        heading: "If you paid online (Razorpay — UPI / Card / Netbanking)",
+        body: "The amount goes back to whichever payment method you originally used. From the point we approve the refund, banks and UPI apps typically take 5–7 business days to complete the credit. That last stretch is genuinely out of our hands — it depends on your bank's own processing speed.",
+      },
+      {
+        heading: "If you paid Cash on Delivery",
+        body: "There's nothing to reverse on our end since no payment was collected upfront. Instead, once your COD return is approved, we'll ask you to share a bank account or UPI ID by email, and transfer the refund directly — usually within 7–10 business days of approval.",
+      },
+      {
+        heading: "What actually qualifies for a refund",
+        body: "Refunds apply when:",
         bullets: [
-          "Your return has been received and approved after inspection.",
-          "Your order was cancelled before dispatch and payment was already captured.",
-          "Payment was deducted but the order could not be confirmed / fulfilled.",
-          "We could not deliver the order due to our operational failure (verified cases).",
+          "A return you sent us has been received and passed inspection.",
+          "You cancelled before the order was dispatched, and the payment had already gone through.",
+          "Money was deducted but the order itself never got confirmed.",
+          "We failed to deliver due to something on our end (verified case by case).",
         ],
       },
       {
-        heading: "2. Online payments (Razorpay — UPI / Card / Netbanking)",
-        body: "For prepaid orders, refunds are credited to the original payment method used at checkout. Once we approve the refund, bank/UPI settlement typically completes within 5–7 business days. Exact timing depends on your bank or UPI app and is outside our direct control after we initiate the refund with the payment gateway.",
+        heading: "What's included, what's not",
+        body: "The product price — after any coupon already applied — is what comes back to you. Shipping charges are non-refundable, unless the return happened because of our mistake (wrong item shipped) or a genuine manufacturing defect.",
       },
       {
-        heading: "3. Cash on Delivery (COD) orders",
-        body: "For COD purchases, there is no prepaid amount to reverse at the time of order. If a COD order is returned and approved, we will refund the product amount via UPI or bank transfer to the account details you share by email. Please allow 7–10 business days after approval for the transfer to reflect.",
+        heading: "Ordered multiple items, returning only some?",
+        body: "We'll refund exactly what's been returned and approved — not the full order value. If a coupon applied a discount across the whole cart, that discount gets recalculated proportionally on the returned item(s).",
       },
       {
-        heading: "4. What is refunded",
-        body: "Product price (after any coupon discount already applied) is refundable for approved returns/cancellations. Shipping charges are non-refundable except where the return is due to our error (wrong item shipped) or a verified manufacturing defect.",
+        heading: "Charged twice by mistake?",
+        body: `It happens occasionally with payment gateways. Send us your payment screenshots and order ID at ${COMPANY.email}, and once we verify it with our payment partner, the duplicate amount goes back to your original payment method.`,
       },
       {
-        heading: "5. Partial refunds",
-        body: "If an order contains multiple items and only some are returned, we refund only the approved returned products. Coupon discounts may be recalculated proportionally where applicable.",
-      },
-      {
-        heading: "6. Failed / duplicate payments",
-        body: `If your account was charged more than once for the same order, write to ${COMPANY.email} with payment screenshots and order ID. After verification with our payment partner, we will refund the duplicate amount to the original method.`,
-      },
-      {
-        heading: "7. Communication",
-        body: `Refund status updates are shared on your registered email. For help, contact ${COMPANY.email} or ${COMPANY.phone}. Operated by ${COMPANY.name}.`,
+        heading: "Updates & support",
+        body: `You'll get refund status updates on your registered email throughout the process. For anything unclear, ${COMPANY.email} or ${COMPANY.phone} gets you a real answer — we're operated by ${COMPANY.name}.`,
       },
     ],
   },
 
   "cancellation-policy": {
     title: "Cancellation Policy",
-    intro: `We understand plans can change. This Cancellation Policy explains how customers of ${COMPANY.brand} can cancel orders for personalised gifts, home décor and gourmet hamper products, and what happens after an order is packed or shipped.`,
+    intro: "Plans change — here's how cancelling an order actually works on our end.",
     sections: [
       {
-        heading: "1. Cancellation before dispatch",
-        body: `You may request cancellation any time before the order is marked as shipped / handed over to the courier. Email ${COMPANY.email} or call ${COMPANY.phone} with your order ID and reason. Once our team confirms the order has not left the warehouse, we will cancel it.`,
+        heading: "Before your order ships",
+        body: `This is the easiest case. Email ${COMPANY.email} or call ${COMPANY.phone} with your order ID and a quick reason. As long as our warehouse hasn't handed the parcel to the courier yet, we'll cancel it right away.`,
       },
       {
-        heading: "2. Prepaid cancellations",
-        body: "If you paid online and cancellation is approved before dispatch, a full refund of the paid amount (including shipping, if charged) will be initiated as per our Refund Policy.",
+        heading: "If you paid online",
+        body: "Once we confirm the cancellation went through before dispatch, the full amount you paid — including shipping if it was charged — gets refunded per our Refund Policy.",
       },
       {
-        heading: "3. COD cancellations",
-        body: "COD orders cancelled before dispatch are simply closed in our system. No payment is collected. Repeated frivolous COD cancellations may lead to future COD restriction on your account to protect our fulfilment partners.",
+        heading: "If you chose Cash on Delivery",
+        body: "Nothing to refund here since no money changed hands. We simply close the order in our system. One note: repeatedly cancelling COD orders at the last minute can lead to COD being restricted on your account going forward — it's the one thing that genuinely disrupts our fulfilment partners.",
       },
       {
-        heading: "4. After dispatch",
-        body: "Once an order is shipped, it cannot be cancelled through the website. You may:",
+        heading: "Once it's already on its way",
+        body: "Cancellation through the website stops being an option the moment your order ships. From here you have two paths:",
         bullets: [
-          "Refuse delivery at the doorstep (where the courier allows), after which the parcel returns to us and we process as per return inspection rules; or",
-          "Accept delivery and raise a return request within the return window under our Return Policy.",
+          "Refuse the delivery at your doorstep if the courier allows it (it'll come back to us and go through our standard return inspection).",
+          "Accept the parcel and raise a return request within our usual return window instead.",
         ],
       },
       {
-        heading: "5. Our right to cancel",
-        body: "We may cancel an order if the product is out of stock, pricing/listing error is detected, payment is incomplete or fraudulent, or delivery is not possible to your address/pincode. In such cases, any amount paid will be refunded.",
+        heading: "When we might cancel your order",
+        body: "Occasionally we have to cancel from our end — the product went out of stock faster than expected, there was a pricing or listing error, payment came through incomplete or looked fraudulent, or we simply can't deliver to your pin code. In every one of these cases, any amount you paid is refunded in full.",
       },
       {
-        heading: "6. Order status",
-        body: "You can track order status from your Profile / Account page after logging in. For urgent cancellations, contact us as early as possible — once packing and courier handover begin, cancellation options reduce.",
+        heading: "Checking where your order stands",
+        body: "Log into your account and check the Profile / Orders section for real-time status. If you need to cancel urgently, act fast — the window narrows quickly once packing begins.",
       },
     ],
   },
 
   "shipping-delivery-policy": {
     title: "Shipping & Delivery Policy",
-    intro: `${COMPANY.brand} ships carefully packed personalised gifts, home décor and gourmet hamper products across India. This policy explains dispatch timelines, delivery estimates, shipping charges, and what to do if a shipment is delayed or damaged.`,
+    intro: "How your order gets from our warehouse to your doorstep.",
     sections: [
       {
-        heading: "1. Serviceable locations",
-        body: "We deliver to most pin codes across India through trusted courier and logistics partners. Some remote, restricted, or high-risk locations may have limited service, longer timelines, or COD restrictions. Serviceability is confirmed at checkout / fulfilment.",
+        heading: "Where we deliver",
+        body: "Pretty much anywhere in India, through courier and logistics partners we trust. A handful of remote or restricted pin codes may see longer timelines or limited COD availability — you'll see this reflected at checkout if it applies to your address.",
       },
       {
-        heading: "2. Order processing & dispatch",
-        body: "Orders are usually processed and dispatched within 1–3 business days after confirmation (excluding Sundays and public holidays). During sales or high-demand periods, dispatch may take slightly longer. You will receive shipment updates on email / SMS where available.",
+        heading: "Getting your order ready",
+        body: "Once confirmed, orders usually leave our warehouse within 1–3 business days (Sundays and public holidays excluded). During big sale periods this can stretch slightly — we'll keep you posted by email or SMS as things move.",
       },
       {
-        heading: "3. Delivery timelines",
-        body: "After dispatch, standard delivery typically takes 3–7 business days depending on your city and pin code. Metro and Tier-1 cities are often faster; remote areas may take 7–10 business days. These are estimated timelines, not guaranteed delivery dates.",
+        heading: "How long delivery takes",
+        body: "After dispatch, expect 3–7 business days for metro and Tier-1 cities, and up to 7–10 business days for more remote areas. These are our honest estimates based on courier averages, not guaranteed dates — logistics can occasionally throw a delay our way.",
       },
       {
-        heading: "4. Shipping charges",
-        body: "Any shipping fee applicable to your order is shown clearly at checkout before you place the order. Promotional free-shipping offers, if live, will also be reflected at checkout.",
+        heading: "What you pay for shipping",
+        body: "Any shipping charge is shown clearly at checkout, before you confirm the order — never added afterward. If there's a free-shipping offer live at the time, it'll reflect there too.",
       },
       {
-        heading: "5. Packaging",
-        body: "Products are packed securely to protect against leakage, breakage and damage in transit, especially glass bottles and pump packaging. Please inspect the outer carton on delivery and note visible damage with the courier before accepting, wherever possible.",
+        heading: "How we pack things",
+        body: "Fragile items — glass bottles, pump packaging, delicate décor pieces — get extra protection so they survive transit. It's worth a quick look at the outer box when it arrives; if something looks visibly damaged, flag it with the courier before you sign off, if you can.",
       },
       {
-        heading: "6. Failed delivery attempts",
-        body: "Couriers usually attempt delivery more than once. If delivery fails due to incorrect address, unreachable phone number, or repeated non-availability, the shipment may return to us. Re-shipping may attract additional charges.",
+        heading: "If a delivery attempt fails",
+        body: "Couriers typically try more than once. If they still can't reach you — wrong address, unreachable number, nobody available — the parcel heads back to our warehouse, and re-shipping it may come with an extra charge.",
       },
       {
-        heading: "7. Damaged / missing parcels",
-        body: `If the parcel arrives damaged or contents are missing, contact ${COMPANY.email} within 48 hours with photos of the package and product. We will coordinate with the logistics partner and arrange a suitable resolution.`,
+        heading: "Something arrived broken or missing?",
+        body: `Email us within 48 hours with photos of both the box and the product. We'll take it up directly with the courier partner and sort a resolution from there.`,
       },
       {
-        heading: "8. Contact",
-        body: `${COMPANY.name}, ${COMPANY.address}. Phone: ${COMPANY.phone}. Email: ${COMPANY.email}.`,
+        heading: "Reach us",
+        body: `${COMPANY.name}, ${COMPANY.address} | ${COMPANY.phone} | ${COMPANY.email}`,
       },
     ],
   },
 
   "privacy-policy": {
     title: "Privacy Policy",
-    intro: `This Privacy Policy explains how ${COMPANY.name} (“we”, “us”, “${COMPANY.brand}”) collects, uses, stores and protects your personal information when you browse our website, create an account, place an order for gifting products, or contact our support team. We are committed to handling your data responsibly in line with applicable Indian laws including the Information Technology Act, 2000 and related rules.`,
+    intro: `This explains, in plain language, what happens to your data when you shop with ${COMPANY.brand}.`,
     sections: [
       {
-        heading: "1. Information we collect",
-        body: "Depending on how you use Johnacart, we may collect:",
+        heading: "Information we collect",
+        body: "We may collect:",
         bullets: [
-          "Identity & contact details: name, email address, phone number, shipping/billing address.",
-          "Account data: login credentials (stored as a secure password hash), order history.",
-          "Transaction data: products purchased, amounts, payment method type (COD / online), payment status.",
-          "Technical data: browser type, device information, IP address, and basic analytics cookies needed to run the site.",
-          "Communications: messages you send via contact forms, email, or phone.",
+          "Your name, email, phone number, and shipping/billing address.",
+          "Login details for your account (your password is never stored in plain text) and your order history.",
+          "What you bought, how much you paid, and whether it was COD or online.",
+          "Basic technical data — browser, device, IP address — plus the cookies needed to keep the site running.",
+          "Anything you send us through contact forms, email or phone.",
         ],
       },
       {
-        heading: "2. How we use your information",
-        body: "We use your information to:",
-        bullets: [
-          "Process, fulfil and deliver orders of personalised gifts, home décor and gourmet hamper products.",
-          "Send order confirmations, shipping updates and customer support replies.",
-          "Operate login sessions and protect accounts against unauthorised access.",
-          "Improve website performance, product catalogue and user experience.",
-          "Comply with legal, tax, accounting and fraud-prevention requirements.",
-        ],
+        heading: "Why we collect it",
+        body: "Mainly to get your order to you — confirming, packing, shipping, and keeping you updated along the way. We also use it to run your account securely, respond to support queries, improve how the site works, and meet our tax, accounting and fraud-prevention obligations under Indian law.",
       },
       {
-        heading: "3. Legal basis / consent",
-        body: "By creating an account, placing an order, or submitting a contact form, you consent to processing of your information for the purposes described in this policy. You may withdraw consent for marketing communications at any time by writing to us (transactional emails related to orders may still be sent).",
+        heading: "Your consent",
+        body: "Creating an account, placing an order, or filling a contact form counts as consent to process your data for the reasons above. If you'd rather not receive marketing emails, tell us and we'll stop — order-related emails will still come through, since we need those to actually deliver your gift.",
       },
       {
-        heading: "4. Sharing of information",
-        body: "We do not sell your personal information. We may share limited data with:",
-        bullets: [
-          "Logistics / courier partners — to deliver your order.",
-          "Payment gateways (e.g. Razorpay) — to process online payments securely.",
-          "IT / hosting providers — to operate our website and databases.",
-          "Authorities — when required by law or to protect our legal rights.",
-        ],
+        heading: "Who sees your data",
+        body: "We don't sell it — full stop. Limited data gets shared only where it's operationally necessary: with courier partners so your parcel reaches you, with Razorpay to process online payments securely, with our hosting/IT providers to keep the website running, and with authorities if the law requires it.",
       },
       {
-        heading: "5. Cookies & similar technologies",
-        body: "We use essential cookies for session login and cart continuity. We may use limited analytics to understand traffic patterns. You can control cookies through your browser settings; disabling essential cookies may affect login and checkout.",
+        heading: "Cookies",
+        body: "We run essential cookies to keep you logged in and your cart intact between visits, plus some basic analytics to understand how people use the site. You can switch cookies off in your browser, though login and checkout may stop working properly if you do.",
       },
       {
-        heading: "6. Data security & retention",
-        body: "We use reasonable technical and organisational measures (including encrypted session cookies and hashed passwords) to protect your data. Order and account records are retained as long as needed for business, legal and tax purposes, then deleted or anonymised where practicable.",
+        heading: "Keeping your data safe",
+        body: "Passwords are hashed, sessions are encrypted, and we hold onto order/account records only as long as business, legal or tax requirements need us to — after that, we delete or anonymise them where practical.",
       },
       {
-        heading: "7. Your rights",
-        body: `You may request access, correction, or deletion of your personal data (subject to legal retention needs) by emailing ${COMPANY.email}. We may need to verify your identity before processing such requests.`,
+        heading: "What you can ask us",
+        body: `Write to ${COMPANY.email} if you want to see, correct, or delete your personal data. We may ask for identity verification first, just to be sure it's really you.`,
       },
       {
-        heading: "8. Children’s privacy",
-        body: "Our store is intended for users aged 18+. We do not knowingly collect personal information from children. If you believe a minor has provided data, contact us for removal.",
+        heading: "About age",
+        body: `${COMPANY.brand} is meant for shoppers aged 18 and above. We don't knowingly collect data from anyone younger — if you think a minor's data has ended up with us, let us know and we'll remove it.`,
       },
       {
-        heading: "9. Grievance / contact",
-        body: `For privacy concerns, contact: ${COMPANY.email} | ${COMPANY.phone}. Postal address: ${COMPANY.name}, ${COMPANY.address}.`,
+        heading: "Questions or concerns",
+        body: `${COMPANY.email} | ${COMPANY.phone} | ${COMPANY.name}, Surat, Gujarat.`,
       },
     ],
   },
 
   "terms-of-use": {
     title: "Terms of Use",
-    intro: `Welcome to ${COMPANY.brand}. These Terms of Use (“Terms”) govern your access to and use of our website, mobile browsing experience, and purchase of products including personalised gifts, home décor, gourmet hampers and festive giftrance items. By using the site, you agree to these Terms. If you do not agree, please do not use the website.`,
+    intro: `By using jonacart.com, you're agreeing to the terms below. If something here doesn't sit right with you, please don't use the site.`,
     sections: [
       {
-        heading: "1. About the seller",
-        body: `The website is operated by ${COMPANY.name}, registered address: ${COMPANY.address}. Contact: ${COMPANY.email}, ${COMPANY.phone}.`,
+        heading: "Who runs this site",
+        body: `${COMPANY.brand} is operated by ${COMPANY.name}, registered at ${COMPANY.address}. Reach us at ${COMPANY.email} or ${COMPANY.phone}.`,
       },
       {
-        heading: "2. Eligibility",
-        body: "You must be at least 18 years old and capable of entering into a binding contract under Indian law to place orders. By placing an order, you represent that the information you provide is accurate and complete.",
+        heading: "Who can shop here",
+        body: "You need to be 18 or older and legally able to enter a contract under Indian law. When you place an order, you're confirming the details you've given us are accurate.",
       },
       {
-        heading: "3. Products & pricing",
-        body: "We aim to display accurate product titles, descriptions, images and INR prices. Minor variations in colour, texture or finish may occur due to screen settings or manufacturer batches. Prices and offers may change without prior notice. In case of an obvious pricing error, we reserve the right to cancel the order and refund any amount paid.",
+        heading: "About our product listings",
+        body: "We work hard to keep titles, descriptions, images and ₹ pricing accurate, but small differences in colour or finish can happen due to screens or manufacturing batches — that's normal, not a defect. Prices can change without notice, and if we spot an obvious pricing error, we reserve the right to cancel that order and refund whatever was paid.",
       },
       {
-        heading: "4. Orders & acceptance",
-        body: "An order placed on the website is an offer to buy. Order confirmation email does not always mean final acceptance — acceptance occurs when we confirm fulfilment / dispatch. We may refuse or cancel orders for stock unavailability, suspected fraud, or serviceability issues.",
+        heading: "How an order actually gets accepted",
+        body: "Placing an order is you making us an offer to buy — it isn't automatically accepted just because you got a confirmation email. We consider an order accepted once we confirm it's being fulfilled and dispatched. We may still cancel or decline orders for stock issues, suspected fraud, or delivery-area limitations.",
       },
       {
-        heading: "5. Payments",
-        body: "We accept Cash on Delivery (where available) and online payments via supported gateways (UPI, cards, netbanking). Online payment processing is handled by third-party providers; we do not store full card details on our servers.",
+        heading: "Paying for your order",
+        body: "You can pay via Cash on Delivery (where it's available) or online through UPI, cards or netbanking, processed by our third-party payment partners. We never store your full card details ourselves.",
       },
       {
-        heading: "6. User accounts",
-        body: "You are responsible for keeping your login credentials confidential and for all activity under your account. Notify us immediately of any unauthorised use. We may suspend accounts that violate these Terms or engage in abuse (including repeated false COD refusals).",
+        heading: "Your account, your responsibility",
+        body: "Keep your login details to yourself, and let us know immediately if you notice anything unusual on your account. We can suspend accounts that break these Terms — including people who make a habit of refusing COD orders without reason.",
       },
       {
-        heading: "7. Intellectual property",
-        body: "All website content — logos, text, graphics, product photography and design — is owned by or licensed to us. You may not copy, scrape, or commercially reuse content without written permission.",
+        heading: "Who owns what's on this site",
+        body: "Every logo, product photo, description and design element on jonacart.com belongs to us or is licensed to us. Copying, scraping or reusing it commercially without our written go-ahead isn't allowed.",
       },
       {
-        heading: "8. Prohibited use",
-        body: "You agree not to misuse the site, attempt unauthorised access, interfere with security, post unlawful content, or use the platform for fraudulent transactions.",
+        heading: "Using the site fairly",
+        body: "Don't try to break into parts of the site you shouldn't access, interfere with how it runs, post anything unlawful, or attempt fraudulent transactions. Simple as that.",
       },
       {
-        heading: "9. Limitation of liability",
-        body: "To the fullest extent permitted by law, our liability for any claim arising from a product or the website is limited to the amount you paid for the relevant order. We are not liable for indirect, incidental or consequential losses (including delay by courier partners beyond reasonable control).",
+        heading: "Where our liability ends",
+        body: "If something goes wrong with a product or the site itself, our liability is capped at whatever you paid for that specific order. We're not on the hook for indirect losses — including courier delays that are genuinely outside our control.",
       },
       {
-        heading: "10. Linked policies",
-        body: "Your purchases are also governed by our Return, Refund, Cancellation, Shipping & Delivery and Privacy policies published on this website. Those policies form part of these Terms by reference.",
+        heading: "Other policies that apply too",
+        body: "Your purchase is also covered by our Return, Refund, Cancellation, Shipping & Delivery and Privacy policies — all published on this site, and all part of these Terms by reference.",
       },
       {
-        heading: "11. Governing law & jurisdiction",
-        body: "These Terms are governed by the laws of India. Exclusive jurisdiction lies with the competent courts at Surat, Gujarat, without prejudice to any rights you may have under applicable consumer protection laws.",
+        heading: "Which laws apply",
+        body: "Indian law governs these Terms, and courts at Surat, Gujarat hold jurisdiction — without taking away any rights you have under consumer protection law.",
       },
       {
-        heading: "12. Changes to Terms",
-        body: "We may update these Terms from time to time. Continued use of the website after changes constitutes acceptance of the revised Terms. The “Last updated” date on this page reflects the latest revision.",
+        heading: "These Terms can change",
+        body: 'We may update this page from time to time. Using the site after an update means you\'re accepting the new version — check the "Last updated" date for the latest revision.',
       },
     ],
   },

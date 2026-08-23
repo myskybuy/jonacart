@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { sendWelcomeEmail } from "@/lib/email";
 import { hashPassword, isValidEmail, publicUser } from "@/lib/password";
-import { getSession } from "@/lib/session";
 
 export async function POST(req: NextRequest) {
   const { name, email, password } = await req.json();
@@ -28,10 +27,7 @@ export async function POST(req: NextRequest) {
     data: { name: cleanName, email: cleanEmail, passwordHash: hashPassword(password) },
   });
 
-  const session = await getSession();
-  session.userId = user.id;
-  await session.save();
-
+  // Do not auto-login — client switches to login tab after signup.
   sendWelcomeEmail(user);
 
   return NextResponse.json({ success: true, user: publicUser(user) });

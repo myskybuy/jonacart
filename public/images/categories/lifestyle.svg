@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#ebe8e1"/>
+  <rect x="240" y="280" width="320" height="360" rx="16" fill="#2a1338"/>
+  <rect x="270" y="320" width="260" height="40" fill="#ffd27a"/>
+  <rect x="270" y="390" width="180" height="24" fill="#f4ebe3"/>
+  <rect x="270" y="440" width="220" height="24" fill="#f4ebe3"/>
+  <rect x="270" y="490" width="140" height="24" fill="#c0245a"/>
+  <text x="400" y="720" text-anchor="middle" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#2a1338">Lifestyle</text>
+</svg>

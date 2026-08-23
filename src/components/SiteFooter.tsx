@@ -8,7 +8,7 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <h4>Johnacart.</h4>
+          <h4>jonacart.</h4>
           <p>
             A modern Indian gifting store by {COMPANY.name}, built around real product photography, clear
             pricing and cash-on-delivery checkout.
@@ -33,7 +33,7 @@ export default function SiteFooter() {
         </div>
         <div>
           <h4>INFORMATION</h4>
-          <Link href="/about">About Johnacart </Link>
+          <Link href="/about">About jonacart</Link>
           <Link href="/privacy-policy">Privacy policy</Link>
           <Link href="/terms-of-use">Terms of use</Link>
           <p className="footer-company">
@@ -48,7 +48,7 @@ export default function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Johnacart. Catalogue availability is confirmed before order acceptance.</span>
+        <span>© 2026 jonacart. Catalogue availability is confirmed before order acceptance.</span>
         <span>
           {COMPANY.name} • {COMPANY.phone} • {COMPANY.email}
         </span>

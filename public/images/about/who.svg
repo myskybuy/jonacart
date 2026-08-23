@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <rect width="900" height="700" fill="#2a1338"/>
+  <rect x="160" y="160" width="580" height="360" rx="24" fill="#3d1f4f"/>
+  <rect x="220" y="220" width="200" height="140" rx="14" fill="#c0245a"/>
+  <rect x="460" y="220" width="200" height="140" rx="14" fill="#ffd27a"/>
+  <rect x="220" y="400" width="440" height="60" rx="12" fill="#fdf3e6"/>
+  <text x="450" y="580" text-anchor="middle" font-family="Arial,sans-serif" font-size="36" fill="#fdf3e6">Gifted with care</text>
+</svg>

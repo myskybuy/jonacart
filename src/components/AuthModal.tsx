@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 type User = { id: number; name: string; email: string };
 
@@ -34,9 +35,6 @@ export default function AuthModal({
   const [otpEmail, setOtpEmail] = useState("");
   const [otpValue, setOtpValue] = useState("");
 
-  // Reset all transient state whenever the modal transitions from closed to open.
-  // This runs during render (React's documented pattern for resetting state on a
-  // prop change) instead of in an effect, so it can't cause an extra render pass.
   const [prevOpen, setPrevOpen] = useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
@@ -72,13 +70,18 @@ export default function AuthModal({
         setOtpValue("");
         setOtpPending(true);
         setInfo(`We've sent a 6-digit OTP to ${data.email || loginEmail}.`);
+        toast.message("OTP sent to your email");
       } else if (data.success && data.user) {
+        toast.success("Logged in successfully");
         onSuccess(data.user);
       } else {
-        setError(data.error || "Login failed");
+        const msg = data.error || "Login failed";
+        setError(msg);
+        toast.error(msg);
       }
     } catch {
       setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -96,10 +99,20 @@ export default function AuthModal({
         body: JSON.stringify({ name: signupName, email: signupEmail, password: signupPassword }),
       });
       const data = await res.json();
-      if (data.success && data.user) onSuccess(data.user);
-      else setError(data.error || "Sign up failed");
+      if (data.success) {
+        setTab("login");
+        setLoginEmail(signupEmail);
+        setSignupPassword("");
+        toast.success("Account created — please log in");
+        setInfo("Account created. Please log in with your email and password.");
+      } else {
+        const msg = data.error || "Sign up failed";
+        setError(msg);
+        toast.error(msg);
+      }
     } catch {
       setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -117,10 +130,17 @@ export default function AuthModal({
         body: JSON.stringify({ email: otpEmail, otp: otpValue }),
       });
       const data = await res.json();
-      if (data.success && data.user) onSuccess(data.user);
-      else setError(data.error || "OTP verification failed");
+      if (data.success && data.user) {
+        toast.success("Logged in successfully");
+        onSuccess(data.user);
+      } else {
+        const msg = data.error || "OTP verification failed";
+        setError(msg);
+        toast.error(msg);
+      }
     } catch {
       setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -137,10 +157,17 @@ export default function AuthModal({
         body: JSON.stringify({ email: otpEmail }),
       });
       const data = await res.json();
-      if (data.success) setInfo(`A new OTP has been sent to ${otpEmail}.`);
-      else setError(data.error || "Could not resend OTP");
+      if (data.success) {
+        setInfo(`A new OTP has been sent to ${otpEmail}.`);
+        toast.message("OTP resent");
+      } else {
+        const msg = data.error || "Could not resend OTP";
+        setError(msg);
+        toast.error(msg);
+      }
     } catch {
       setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setResending(false);
     }

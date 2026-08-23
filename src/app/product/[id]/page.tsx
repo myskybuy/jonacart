@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Product } from "@/components/ProductCard";
+import SafeImage from "@/components/SafeImage";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
@@ -50,7 +52,7 @@ export default function ProductPage() {
       <div className="product-page">
         <div className="product-gallery">
           {discount > 0 ? <span className="badge-sale">{discount}% OFF</span> : null}
-          <img src={product.image} alt={product.name} />
+          <SafeImage src={product.image} alt={product.name} />
         </div>
         <div className="product-info">
           <span className="brand">{product.brand}</span>
@@ -73,6 +75,7 @@ export default function ProductPage() {
                 qty
               );
               setFeedback("added");
+              toast.success("Added to cart");
             }}
           >
             {btnLabel}

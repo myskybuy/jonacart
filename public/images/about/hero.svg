@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c0245a"/>
+      <stop offset="100%" stop-color="#2a1338"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="700" fill="url(#a)"/>
+  <rect x="280" y="210" width="340" height="240" rx="20" fill="#fdf3e6"/>
+  <rect x="430" y="210" width="40" height="240" fill="#ffd27a"/>
+  <rect x="280" y="310" width="340" height="40" fill="#ffd27a"/>
+  <text x="450" y="520" text-anchor="middle" font-family="Georgia,serif" font-size="48" fill="#fdf3e6">jonacart</text>
+</svg>

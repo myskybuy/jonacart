@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AuthModal from "@/components/AuthModal";
+import SafeImage from "@/components/SafeImage";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
@@ -53,7 +54,7 @@ export default function CartPage() {
           <>
             {cart.map((item) => (
               <div key={item.id} className="cart-item">
-                <img src={item.image} alt={item.name} />
+                <SafeImage src={item.image} alt={item.name} />
                 <div className="cart-item-info">
                   <strong>{item.name}</strong>
                   <div>₹{item.salePrice}</div>

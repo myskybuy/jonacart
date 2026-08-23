@@ -4,8 +4,8 @@ import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
 import { COMPANY } from "@/lib/policies";
 
-const HERO_IMG = "https://placehold.co/900x700/c0245a/fdf3e6?text=Johnacart&font=montserrat";
-const WHO_IMG = "https://placehold.co/900x700/2a1338/fdf3e6?text=Gifted+With+Care&font=montserrat";
+const HERO_IMG = "/images/about/hero.svg";
+const WHO_IMG = "/images/about/who.svg";
 
 const stats = [
   { num: "80+", label: "curated gifting picks" },
@@ -17,43 +17,75 @@ const stats = [
 const offers = [
   {
     title: "Personalised Gifts",
-    text: "Photo and name-led keepsakes, puzzle boxes and hampers made for thoughtful, memory-led gifting.",
+    text: "Photo frames, name-led keepsakes and puzzle boxes built around a memory, not just a product.",
     icon: "🎁",
   },
   {
     title: "Festive Gifts",
-    text: "Rakhi sets, lumba bracelets and seasonal picks for family celebrations across the year.",
+    text: "Rakhi sets, lumba bracelets and seasonal picks timed for the celebrations that matter to Indian families.",
     icon: "🪔",
   },
   {
     title: "Gourmet Hampers",
-    text: "Chocolates, snacks and food hampers packed for gifting, not just eating.",
+    text: "Chocolates, snacks and curated food boxes packed specifically for gifting, not grocery shopping.",
     icon: "🍫",
   },
   {
-    title: "Lifestyle Gifts",
-    text: "Useful, everyday pieces that make thoughtful gifts for the people who have everything.",
-    icon: "✨",
+    title: "Home Décor",
+    text: "Pieces that add warmth to a space and double up beautifully as housewarming or festive gifts.",
+    icon: "🏠",
   },
   {
-    title: "Kids Gifts",
-    text: "Bright, playful picks for kids' celebrations, school events and festive moments.",
+    title: "Kids' Gifts",
+    text: "Bright, playful items for birthdays, school events and festive moments.",
     icon: "🧸",
   },
 ];
 
 const process = [
-  { step: "01", title: "Choose a gift", text: "Browse by occasion or department and pick something that fits the moment." },
-  { step: "02", title: "Add to cart", text: "See rupee pricing up front — no surprise charges added at the last step." },
-  { step: "03", title: "Checkout your way", text: "Pay with Cash on Delivery, or complete a secure online payment at checkout." },
-  { step: "04", title: "Track & receive", text: "We confirm stock and dispatch details before your order ships to you." },
+  {
+    step: "01",
+    title: "Browse by occasion",
+    text: "You browse by occasion or category, add what fits, and see the final rupee price before you ever reach checkout — no last-step surprises.",
+  },
+  {
+    step: "02",
+    title: "Pay your way",
+    text: "At payment, choose Cash on Delivery if you'd rather pay when the gift lands at the door, or complete a secure online payment if you prefer to finish in one go.",
+  },
+  {
+    step: "03",
+    title: "We confirm before shipping",
+    text: "Once your order is confirmed, we check stock and dispatch details before anything ships, so you're not left guessing.",
+  },
+  {
+    step: "04",
+    title: "Real support when needed",
+    text: "When something needs sorting out — a delayed order, a cancellation, a return — our support team is one email or phone call away, not buried behind a chatbot.",
+  },
 ];
 
 const reasons = [
-  { num: "01", title: "Real Product Photography", text: "What you see is what ships — every listing is reviewed for accurate presentation before it goes live." },
-  { num: "02", title: "Transparent Pricing", text: "Clear regular and sale prices in ₹, with nothing hidden until checkout." },
-  { num: "03", title: "Cash On Delivery", text: "Order with confidence — pay when your gift actually arrives at your door." },
-  { num: "04", title: "Responsive Support", text: "Order status, delivery, cancellation, return or refund help — one email or call away." },
+  {
+    num: "01",
+    title: "Honest listings",
+    text: "The photos you see are reviewed against the actual product before they go live, so there's no gap between expectation and delivery.",
+  },
+  {
+    num: "02",
+    title: "Transparent pricing",
+    text: "Pricing stays transparent in ₹ at every stage.",
+  },
+  {
+    num: "03",
+    title: "Thoughtful curation",
+    text: "Every product is chosen because it photographs honestly, ships well, and genuinely works as a gift — not just as an item in a cart.",
+  },
+  {
+    num: "04",
+    title: "Human support",
+    text: "Reach us by email or phone during support hours — a real person from our team will get back to you.",
+  },
 ];
 
 export default function AboutPage() {
@@ -61,29 +93,28 @@ export default function AboutPage() {
     <StoreShell>
       <SiteHeader />
 
-      {/* Hero */}
       <section className="about-hero">
         <div className="container about-split">
           <div className="about-copy">
-            <p className="about-eyebrow gold">About Johnacart</p>
-            <h1>Gifting, done properly.</h1>
+            <p className="about-eyebrow gold">About jonacart</p>
+            <h1>Every gift tells a story. We just help you tell it well.</h1>
             <p className="about-lead">
-              Johnacart is an Indian ecommerce store operated by <strong>{COMPANY.name}</strong>. We help
-              customers discover and purchase gifts, hampers, personalised products, home décor and
-              related items through a clear, secure and convenient online shopping experience — built for
-              how India actually gifts.
+              jonacart started with a simple frustration: gifting online in India usually means scrolling
+              through generic catalogues that feel exactly the same whether you&apos;re shopping for a
+              birthday, a rakhi, or a wedding. We wanted something different — a place where the products
+              themselves do the talking, where personalisation isn&apos;t a gimmick, and where the person
+              receiving the gift can actually feel the thought behind it.
             </p>
             <Link href="/shop" className="btn btn-accent about-cta">
               Explore Our Collection →
             </Link>
           </div>
           <div className="about-media">
-            <img src={HERO_IMG} alt="Johnacart gifting edit" />
+            <img src={HERO_IMG} alt="jonacart gifting edit" />
           </div>
         </div>
       </section>
 
-      {/* Stats strip */}
       <section className="about-stats-strip">
         <div className="container about-stats-grid">
           {stats.map((s) => (
@@ -95,37 +126,36 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Who we are */}
       <section className="about-who">
         <div className="container about-split reverse">
           <div className="about-media">
-            <img src={WHO_IMG} alt="Johnacart gift wrapping and packaging" />
+            <img src={WHO_IMG} alt="jonacart gift wrapping and packaging" />
           </div>
           <div className="about-copy">
-            <p className="about-eyebrow teal">Our Business</p>
-            <h2>Every gift is checked before it ships.</h2>
+            <p className="about-eyebrow teal">Who we are</p>
+            <h2>A curated mix built for real gifting moments.</h2>
             <p>
-              We focus on accurate product presentation, transparent INR pricing, straightforward
-              checkout and responsive post-order support. Product descriptions, images, prices and stock
-              status are reviewed as part of our catalogue and order-management process.
+              Today, jonacart is home to a curated mix of personalised keepsakes, festive essentials,
+              gourmet hampers, home décor pieces, kids&apos; gifting and everyday lifestyle finds. We
+              don&apos;t try to sell everything to everyone.
             </p>
             <p>
-              Orders are processed by Johnacart, and dispatch details are confirmed before shipment — so
-              what lands on your doorstep matches what you picked, occasion after occasion.
+              jonacart is built and operated by <strong>{COMPANY.name}</strong>, based in Surat, Gujarat.
+              We&apos;re a small, growing team that genuinely enjoys the gifting business, and we&apos;d
+              love for you to find something here worth giving.
             </p>
           </div>
         </div>
       </section>
 
-      {/* What we offer */}
       <section className="about-offer">
         <div className="container">
           <div className="about-center-head">
-            <p className="about-eyebrow teal">Gift Departments</p>
-            <h2>Every Shelf Has An Occasion In Mind</h2>
+            <p className="about-eyebrow teal">What you&apos;ll find here</p>
+            <h2>Every shelf has an occasion in mind</h2>
             <p className="about-sub">
-              From a quiet thank-you to a full festive celebration — six departments, curated so you can
-              shop by moment, not just by category.
+              From a quiet thank-you to a full festive celebration — departments curated so you can shop
+              by moment, not just by category.
             </p>
           </div>
           <div className="about-offer-grid">
@@ -142,12 +172,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* How it works */}
       <section className="about-process">
         <div className="container">
           <div className="about-center-head">
-            <p className="about-eyebrow gold">How It Works</p>
-            <h2>From Browsing To Their Doorstep</h2>
+            <p className="about-eyebrow gold">How shopping with us works</p>
+            <h2>From browsing to their doorstep</h2>
           </div>
           <div className="about-process-grid">
             {process.map((p) => (
@@ -161,12 +190,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Why choose us */}
       <section className="about-why">
         <div className="container">
           <div className="about-center-head">
-            <p className="about-eyebrow teal">Why Johnacart</p>
-            <h2>Why Choose Us?</h2>
+            <p className="about-eyebrow teal">Why people come back</p>
+            <h2>Why choose us?</h2>
           </div>
           <div className="about-why-grid">
             {reasons.map((r) => (
@@ -180,20 +208,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission */}
       <section className="about-mission">
         <div className="container about-mission-inner">
-          <p className="about-eyebrow gold">Our Mission</p>
-          <h2>Making Every Occasion A Little More Thoughtful.</h2>
+          <p className="about-eyebrow gold">Our promise</p>
+          <h2>Making every occasion a little more thoughtful.</h2>
           <p>
             Our mission is to make thoughtful gifting accessible to everyone in India — with a shopping
-            experience built around clarity, trust and customer satisfaction, from discovery on Johnacart
+            experience built around clarity, trust and customer satisfaction, from discovery on jonacart
             to delivery at your doorstep.
           </p>
         </div>
       </section>
 
-      {/* Business info */}
       <section className="about-business">
         <div className="container about-business-inner">
           <p className="about-eyebrow teal">Business Information</p>
@@ -203,7 +229,7 @@ export default function AboutPage() {
               <strong>{COMPANY.name}</strong>
             </div>
             <div>
-              <span>GST principal place of business</span>
+              <span>Registered office</span>
               <strong>{COMPANY.address}</strong>
             </div>
             <div>
@@ -218,15 +244,18 @@ export default function AboutPage() {
                 <a href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}>{COMPANY.phone}</a>
               </strong>
             </div>
+            <div>
+              <span>Support hours</span>
+              <strong>{COMPANY.supportHours}</strong>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
       <section className="about-bottom-cta">
         <div className="container">
           <div className="about-cta-banner">
-            <h2>Find Their Next Favourite Gift</h2>
+            <h2>Find their next favourite gift</h2>
             <p>
               Explore the full catalogue and discover gifts that fit the person, the occasion, and the
               moment.

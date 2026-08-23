@@ -34,7 +34,7 @@ function ShopContent() {
   }, [category, saleOnly, q]);
 
   let eyebrow = "All products";
-  let title = "Everything at Johnacart";
+  let title = "Everything at jonacart";
   if (category) {
     eyebrow = category;
     title = category;

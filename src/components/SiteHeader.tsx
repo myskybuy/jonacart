@@ -7,11 +7,23 @@ import { useCart } from "./CartProvider";
 
 type User = { id: number; name: string; email: string };
 
+const NAV_LINKS = [
+  { href: "/shop", label: "All Gifts" },
+  { href: "/shop?category=Personalised%20Gifts", label: "Personalised" },
+  { href: "/shop?category=Festive%20Gifts", label: "Festive" },
+  { href: "/shop?category=Gourmet%20Hampers", label: "Hampers" },
+  { href: "/shop?category=Lifestyle%20Gifts", label: "Lifestyle" },
+  { href: "/shop?category=Kids%20Gifts", label: "Kids" },
+  { href: "/shop?sale=1", label: "Deals" },
+  { href: "/about", label: "About Us" },
+];
+
 export default function SiteHeader({ showSearch = true }: { showSearch?: boolean }) {
   const router = useRouter();
   const { cartCount } = useCart();
   const [user, setUser] = useState<User | null>(null);
   const [query, setQuery] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -20,20 +32,36 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
       .catch(() => setUser(null));
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
-    if (query.trim()) router.push(`/shop?q=${encodeURIComponent(query.trim())}`);
+    if (query.trim()) {
+      setMenuOpen(false);
+      router.push(`/shop?q=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   return (
     <header className="site-header">
       <div className="header-inner">
-        <Link href="/" className="logo">
+        <Link href="/" className="logo" onClick={() => setMenuOpen(false)}>
           <span className="logo-my">JONA</span>
           <span className="logo-cart">CART.</span>
         </Link>
         {showSearch ? (
-          <form onSubmit={onSearch} className="search-wrap">
+          <form onSubmit={onSearch} className="search-wrap search-wrap-desktop">
             <span className="search-icon" aria-hidden>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="7" />
@@ -49,15 +77,12 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
             />
           </form>
         ) : null}
-        <nav className="main-nav">
-          <Link href="/shop">All Gifts</Link>
-          <Link href="/shop?category=Personalised%20Gifts">Personalised</Link>
-          <Link href="/shop?category=Festive%20Gifts">Festive</Link>
-          <Link href="/shop?category=Gourmet%20Hampers">Hampers</Link>
-          <Link href="/shop?category=Lifestyle%20Gifts">Lifestyle</Link>
-          <Link href="/shop?category=Kids%20Gifts">Kids</Link>
-          <Link href="/shop?sale=1">Deals</Link>
-          <Link href="/about">About Us</Link>
+        <nav className="main-nav main-nav-desktop" aria-label="Primary">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.href + link.label} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </nav>
         <div className="header-actions">
           <Link href={user ? "/profile" : "/account"} className="profile-link" title={user ? "My profile" : "Login / Sign up"}>
@@ -68,10 +93,54 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
             <span className="profile-label">{user ? user.name.split(" ")[0] : "Account"}</span>
           </Link>
           <Link href="/cart" className="cart-pill">
-            My Cart ({cartCount})
+            <span className="cart-pill-full">My Cart ({cartCount})</span>
+            <span className="cart-pill-short">Cart ({cartCount})</span>
           </Link>
+          <button
+            type="button"
+            className={`nav-toggle${menuOpen ? " open" : ""}`}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
       </div>
+
+      {menuOpen ? (
+        <div className="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+          <button type="button" className="mobile-nav-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)} />
+          <div className="mobile-nav-panel">
+            {showSearch ? (
+              <form onSubmit={onSearch} className="search-wrap search-wrap-mobile">
+                <span className="search-icon" aria-hidden>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M20 20l-3-3" />
+                  </svg>
+                </span>
+                <input
+                  className="search-box"
+                  placeholder="Search gifts…"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  aria-label="Search products"
+                />
+              </form>
+            ) : null}
+            <nav className="main-nav main-nav-mobile" aria-label="Mobile">
+              {NAV_LINKS.map((link) => (
+                <Link key={link.href + link.label} href={link.href} onClick={() => setMenuOpen(false)}>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }

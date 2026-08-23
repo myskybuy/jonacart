@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Gift placeholder">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7e9df"/>
+      <stop offset="100%" stop-color="#e8d2c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <rect x="220" y="360" width="360" height="280" rx="18" fill="#c0245a"/>
+  <rect x="380" y="360" width="40" height="280" fill="#f4c95f"/>
+  <rect x="220" y="480" width="360" height="40" fill="#f4c95f"/>
+  <path d="M400 360 C360 300 300 310 300 350 C300 390 360 400 400 360" fill="#f4c95f"/>
+  <path d="M400 360 C440 300 500 310 500 350 C500 390 440 400 400 360" fill="#f4c95f"/>
+  <text x="400" y="720" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#5a3d4a">jonacart</text>
+</svg>

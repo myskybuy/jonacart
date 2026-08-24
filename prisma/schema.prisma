@@ -50,6 +50,8 @@ model User {
   name          String
   email         String    @unique
   passwordHash  String
+  phone         String?
+  address       String?   @db.Text
   otpCode       String?
   otpExpiresAt  DateTime?
   createdAt     DateTime  @default(now())

@@ -63,26 +63,36 @@ export default function ProductPage() {
           </div>
           <p className="product-desc">{product.description}</p>
           <div className="qty-row">
-            <label>Quantity</label>
-            <input type="number" min={1} value={qty} onChange={(e) => setQty(Math.max(1, Number(e.target.value)))} />
+            <span className="qty-label">Quantity</span>
+            <div className="qty-stepper" role="group" aria-label="Quantity">
+              <button type="button" aria-label="Decrease quantity" onClick={() => setQty((q) => Math.max(1, q - 1))}>
+                −
+              </button>
+              <span aria-live="polite">{qty}</span>
+              <button type="button" aria-label="Increase quantity" onClick={() => setQty((q) => q + 1)}>
+                +
+              </button>
+            </div>
           </div>
-          <button
-            className={`btn btn-accent ${feedback === "added" ? "added" : ""}`}
-            type="button"
-            onClick={() => {
-              addToCart(
-                { id: product.id, name: product.name, image: product.image, salePrice: product.salePrice },
-                qty
-              );
-              setFeedback("added");
-              toast.success("Added to cart");
-            }}
-          >
-            {btnLabel}
-          </button>
-          <Link href="/cart" className="btn btn-outline" style={{ marginLeft: 10 }}>
-            Go to cart
-          </Link>
+          <div className="pdp-actions">
+            <button
+              className={`btn btn-accent btn-block ${feedback === "added" ? "added" : ""}`}
+              type="button"
+              onClick={() => {
+                addToCart(
+                  { id: product.id, name: product.name, image: product.image, salePrice: product.salePrice },
+                  qty
+                );
+                setFeedback("added");
+                toast.success("Added to cart");
+              }}
+            >
+              {btnLabel}
+            </button>
+            <Link href="/cart" className="btn btn-outline btn-block">
+              Go to cart
+            </Link>
+          </div>
         </div>
       </div>
       <SiteFooter />

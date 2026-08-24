@@ -75,6 +75,9 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search products"
             />
+            <button type="submit" className="search-submit" aria-label="Search">
+              Search
+            </button>
           </form>
         ) : null}
         <nav className="main-nav main-nav-desktop" aria-label="Primary">
@@ -85,16 +88,25 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
           ))}
         </nav>
         <div className="header-actions">
-          <Link href={user ? "/profile" : "/account"} className="profile-link" title={user ? "My profile" : "Login / Sign up"}>
+          <Link
+            href={user ? "/profile" : "/account"}
+            className="profile-link"
+            title={user ? "My profile" : "Login / Sign up"}
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               <circle cx="12" cy="8" r="4" />
               <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
             </svg>
             <span className="profile-label">{user ? user.name.split(" ")[0] : "Account"}</span>
           </Link>
-          <Link href="/cart" className="cart-pill">
-            <span className="cart-pill-full">My Cart ({cartCount})</span>
-            <span className="cart-pill-short">Cart ({cartCount})</span>
+          <Link href="/cart" className="cart-icon-btn" aria-label={`Cart, ${cartCount} items`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <path d="M6 6h15l-1.5 9h-12z" />
+              <path d="M6 6l-1-3H2" />
+              <circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none" />
+              <circle cx="18" cy="20" r="1.5" fill="currentColor" stroke="none" />
+            </svg>
+            <span className="cart-qty-badge">{cartCount > 99 ? "99+" : cartCount}</span>
           </Link>
           <button
             type="button"
@@ -129,6 +141,9 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
                   onChange={(e) => setQuery(e.target.value)}
                   aria-label="Search products"
                 />
+                <button type="submit" className="search-submit" aria-label="Search">
+                  Go
+                </button>
               </form>
             ) : null}
             <nav className="main-nav main-nav-mobile" aria-label="Mobile">

@@ -35,6 +35,12 @@ export default function AuthModal({
   const [otpEmail, setOtpEmail] = useState("");
   const [otpValue, setOtpValue] = useState("");
 
+  const [forgotStep, setForgotStep] = useState<"off" | "email" | "reset">("off");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotOtp, setForgotOtp] = useState("");
+  const [forgotPassword, setForgotPassword] = useState("");
+  const [forgotConfirm, setForgotConfirm] = useState("");
+
   const [prevOpen, setPrevOpen] = useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
@@ -48,6 +54,10 @@ export default function AuthModal({
       setOtpEmail("");
       setOtpValue("");
       setLoginPassword("");
+      setForgotStep("off");
+      setForgotOtp("");
+      setForgotPassword("");
+      setForgotConfirm("");
     }
   }
 
@@ -173,9 +183,78 @@ export default function AuthModal({
     }
   }
 
+  async function requestForgotOtp(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setInfo("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.error || "Could not send OTP";
+        setError(msg);
+        toast.error(msg);
+        return;
+      }
+      setForgotStep("reset");
+      setInfo(data.message || "OTP sent if the account exists.");
+      toast.message("Check your email for the OTP");
+    } catch {
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function submitForgotReset(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setInfo("");
+    if (forgotPassword !== forgotConfirm) {
+      setError("Passwords do not match");
+      toast.error("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail, otp: forgotOtp, newPassword: forgotPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.error || "Could not reset password";
+        setError(msg);
+        toast.error(msg);
+        return;
+      }
+      setForgotStep("off");
+      setTab("login");
+      setLoginEmail(forgotEmail);
+      setForgotOtp("");
+      setForgotPassword("");
+      setForgotConfirm("");
+      toast.success("Password updated — please log in");
+      setInfo("Password updated. Please log in.");
+    } catch {
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function backToLogin() {
     setOtpPending(false);
     setOtpValue("");
+    setForgotStep("off");
     setError("");
     setInfo("");
   }
@@ -208,7 +287,7 @@ export default function AuthModal({
                   required
                 />
               </div>
-              <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading || otpValue.length !== 6}>
+              <button className="btn btn-accent btn-block" type="submit" disabled={loading || otpValue.length !== 6}>
                 {loading ? "Verifying…" : "Verify & Login"}
               </button>
             </form>
@@ -221,15 +300,107 @@ export default function AuthModal({
               </button>
             </div>
           </>
+        ) : forgotStep !== "off" ? (
+          <>
+            <h2>Forgot password</h2>
+            <p className="auth-modal-msg">
+              {forgotStep === "email"
+                ? "Enter your account email. We’ll send a one-time OTP."
+                : `Enter the OTP sent to ${forgotEmail} and choose a new password.`}
+            </p>
+            {forgotStep === "email" ? (
+              <form onSubmit={requestForgotOtp}>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
+                  {loading ? "Sending…" : "Send OTP"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={submitForgotReset}>
+                <div className="form-group">
+                  <label>OTP</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    className="otp-input"
+                    value={forgotOtp}
+                    onChange={(e) => setForgotOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>New password</label>
+                  <input
+                    type="password"
+                    value={forgotPassword}
+                    onChange={(e) => setForgotPassword(e.target.value)}
+                    minLength={6}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Confirm password</label>
+                  <input
+                    type="password"
+                    value={forgotConfirm}
+                    onChange={(e) => setForgotConfirm(e.target.value)}
+                    minLength={6}
+                    required
+                  />
+                </div>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading || forgotOtp.length !== 6}>
+                  {loading ? "Updating…" : "Reset password"}
+                </button>
+              </form>
+            )}
+            <div className="auth-modal-otp-actions">
+              {forgotStep === "reset" ? (
+                <button type="button" className="auth-modal-link" onClick={() => setForgotStep("email")} disabled={loading}>
+                  Resend / change email
+                </button>
+              ) : (
+                <span />
+              )}
+              <button type="button" className="auth-modal-link" onClick={backToLogin}>
+                Back to login
+              </button>
+            </div>
+          </>
         ) : (
           <>
             <h2>{title}</h2>
             <p className="auth-modal-msg">{message}</p>
             <div className="account-tabs">
-              <button type="button" className={tab === "login" ? "active" : ""} onClick={() => { setTab("login"); setError(""); setInfo(""); }}>
+              <button
+                type="button"
+                className={tab === "login" ? "active" : ""}
+                onClick={() => {
+                  setTab("login");
+                  setError("");
+                  setInfo("");
+                }}
+              >
                 Log in
               </button>
-              <button type="button" className={tab === "signup" ? "active" : ""} onClick={() => { setTab("signup"); setError(""); setInfo(""); }}>
+              <button
+                type="button"
+                className={tab === "signup" ? "active" : ""}
+                onClick={() => {
+                  setTab("signup");
+                  setError("");
+                  setInfo("");
+                }}
+              >
                 Sign up
               </button>
             </div>
@@ -243,7 +414,19 @@ export default function AuthModal({
                   <label>Password</label>
                   <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Your password" required />
                 </div>
-                <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading}>
+                <button
+                  type="button"
+                  className="auth-modal-link forgot-link"
+                  onClick={() => {
+                    setForgotStep("email");
+                    setForgotEmail(loginEmail);
+                    setError("");
+                    setInfo("");
+                  }}
+                >
+                  Forgot password?
+                </button>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
                   {loading ? "Please wait…" : "Log in"}
                 </button>
               </form>
@@ -261,7 +444,7 @@ export default function AuthModal({
                   <label>Password</label>
                   <input type="password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} placeholder="At least 6 characters" required minLength={6} />
                 </div>
-                <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading}>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
                   {loading ? "Please wait…" : "Create account"}
                 </button>
               </form>

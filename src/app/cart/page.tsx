@@ -58,15 +58,19 @@ export default function CartPage() {
                 <div className="cart-item-info">
                   <strong>{item.name}</strong>
                   <div>₹{item.salePrice}</div>
-                  <div className="qty-controls">
-                    <button type="button" onClick={() => updateQty(item.id, item.qty - 1)}>-</button>
+                  <div className="qty-controls qty-stepper">
+                    <button type="button" aria-label="Decrease quantity" onClick={() => updateQty(item.id, item.qty - 1)}>
+                      −
+                    </button>
                     <span>{item.qty}</span>
-                    <button type="button" onClick={() => updateQty(item.id, item.qty + 1)}>+</button>
+                    <button type="button" aria-label="Increase quantity" onClick={() => updateQty(item.id, item.qty + 1)}>
+                      +
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <div style={{ fontWeight: 700 }}>₹{item.salePrice * item.qty}</div>
-                  <button type="button" className="remove-btn" onClick={() => removeFromCart(item.id)}>
+                <div className="cart-item-side">
+                  <div className="cart-item-total">₹{item.salePrice * item.qty}</div>
+                  <button type="button" className="btn btn-outline remove-btn" onClick={() => removeFromCart(item.id)}>
                     Remove
                   </button>
                 </div>

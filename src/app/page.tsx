@@ -52,7 +52,9 @@ export default function HomePage() {
       .then((data: Product[]) => {
         if (!Array.isArray(data)) return;
         setProducts(data);
-        setHeroProducts(data.filter((p) => heroAllowedCategories.includes(p.category) && p.image));
+        setHeroProducts(
+          data.filter((p) => heroAllowedCategories.includes(p.category) && p.image).slice(0, 8),
+        );
       });
   }, []);
 
@@ -67,107 +69,93 @@ export default function HomePage() {
   return (
     <>
       <FestivePopup />
-      <StoreShell
-        topBar={
-          <div className="top-bar">
-            Occasion-ready gifts across India &nbsp;•&nbsp; Prices shown in INR &nbsp;•&nbsp; Cash on Delivery
-            available
-          </div>
-        }
-      >
+      <StoreShell>
         <SiteHeader />
 
       <section className="hero" aria-label="Featured gifts">
-        <div className="hero-layout">
-          <div className="hero-panel">
-            <p className="hero-brand">jonacart</p>
-            <h1>
-              Gifts that look
-              <br />
-              <span className="accent">like you meant it.</span>
-            </h1>
-            <p className="hero-lead">
-              Real product photos, clear ₹ pricing, and Cash on Delivery — gifts curated for Indian
-              occasions.
-            </p>
-            <div className="hero-actions">
-              <Link href="/shop" className="btn btn-accent">
-                Shop all gifts
-              </Link>
-              <Link href="/shop?sale=1" className="btn btn-outline hero-btn-ghost">
-                View deals
-              </Link>
-            </div>
-          </div>
+        <div className="hero-visual" aria-hidden={!currentHero}>
+          {currentHero ? (
+            <SafeImage
+              key={currentHero.id}
+              src={currentHero.image}
+              alt=""
+              className="hero-visual-img"
+              loading="eager"
+            />
+          ) : (
+            <SafeImage
+              src="/images/placeholder.svg"
+              alt=""
+              className="hero-visual-img"
+              loading="eager"
+            />
+          )}
+          <div className="hero-scrim" />
+        </div>
 
-          <div className="hero-media">
-            <div className="hero-stage">
-              {heroProducts.length ? (
-                heroProducts.map((product, index) => (
-                  <div
-                    key={product.id}
-                    className={`hero-bg-slide${index === heroIndex ? " active" : ""}`}
-                    aria-hidden={index !== heroIndex}
-                  >
-                    <SafeImage
-                      src={product.image}
-                      alt=""
-                      loading={index === 0 ? "eager" : "lazy"}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="hero-bg-slide active" aria-hidden>
-                  <SafeImage src="/images/placeholder.svg" alt="" loading="eager" />
-                </div>
-              )}
-            </div>
+        <div className="hero-copy">
+          <p className="hero-brand">jonacart</p>
+          <h1>
+            Gifts that feel
+            <br />
+            <span className="accent">personal.</span>
+          </h1>
+          <p className="hero-lead">
+            Curated for Indian occasions — clear pricing, real photos, Cash on Delivery.
+          </p>
+          <div className="hero-actions">
+            <Link href="/shop" className="btn btn-accent">
+              Shop gifts
+            </Link>
+            <Link href="/shop?sale=1" className="btn btn-outline hero-btn-ghost">
+              View deals
+            </Link>
           </div>
         </div>
 
         {currentHero ? (
-          <div className="hero-rail">
-            <Link href={`/product/${currentHero.id}`} className="hero-rail-main">
-              <span className="hero-rail-brand">{currentHero.brand || "jonacart"}</span>
-              <strong className="hero-rail-name">{currentHero.name}</strong>
-              <span className="hero-rail-price">
+          <div className="hero-feature">
+            <Link href={`/product/${currentHero.id}`} className="hero-feature-link">
+              <span className="hero-feature-label">Featured</span>
+              <span className="hero-feature-name">{currentHero.name}</span>
+              <span className="hero-feature-price">
                 ₹{Number(currentHero.salePrice ?? currentHero.price).toLocaleString("en-IN")}
-                {currentHero.salePrice < currentHero.price ? (
-                  <del>₹{Number(currentHero.price).toLocaleString("en-IN")}</del>
-                ) : null}
               </span>
             </Link>
-            <div className="hero-rail-controls">
-              <button
-                type="button"
-                className="hero-rail-btn"
-                aria-label="Previous product"
-                onClick={() =>
-                  setHeroIndex((i) => (i - 1 + heroProducts.length) % heroProducts.length)
-                }
-              >
-                ‹
-              </button>
-              <div className="hero-rail-dots">
-                {heroProducts.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    className={index === heroIndex ? "active" : ""}
-                    aria-label={`Go to product ${index + 1}`}
-                    onClick={() => setHeroIndex(index)}
-                  />
-                ))}
+            {heroProducts.length > 1 ? (
+              <div className="hero-feature-nav" role="group" aria-label="Featured products">
+                <button
+                  type="button"
+                  className="hero-nav-btn"
+                  aria-label="Previous"
+                  onClick={() =>
+                    setHeroIndex((i) => (i - 1 + heroProducts.length) % heroProducts.length)
+                  }
+                >
+                  ‹
+                </button>
+                <div className="hero-dots">
+                  {heroProducts.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      className={index === heroIndex ? "active" : ""}
+                      aria-label={`Product ${index + 1}`}
+                      aria-current={index === heroIndex}
+                      onClick={() => setHeroIndex(index)}
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="hero-nav-btn"
+                  aria-label="Next"
+                  onClick={() => setHeroIndex((i) => (i + 1) % heroProducts.length)}
+                >
+                  ›
+                </button>
               </div>
-              <button
-                type="button"
-                className="hero-rail-btn"
-                aria-label="Next product"
-                onClick={() => setHeroIndex((i) => (i + 1) % heroProducts.length)}
-              >
-                ›
-              </button>
-            </div>
+            ) : null}
           </div>
         ) : null}
       </section>

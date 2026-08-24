@@ -27,6 +27,11 @@ export default function AccountPage() {
   const [otpPending, setOtpPending] = useState(false);
   const [otpEmail, setOtpEmail] = useState("");
   const [otpValue, setOtpValue] = useState("");
+  const [forgotStep, setForgotStep] = useState<"off" | "email" | "reset">("off");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotOtp, setForgotOtp] = useState("");
+  const [forgotPassword, setForgotPassword] = useState("");
+  const [forgotConfirm, setForgotConfirm] = useState("");
 
   async function loadAccount() {
     const me = await fetch("/api/auth/me").then((r) => r.json());
@@ -169,6 +174,91 @@ export default function AccountPage() {
     await loadAccount();
   }
 
+  async function requestForgotOtp(e: FormEvent) {
+    e.preventDefault();
+    setLoginError("");
+    setInfo("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.error || "Could not send OTP";
+        setLoginError(msg);
+        toast.error(msg);
+        return;
+      }
+      setForgotStep("reset");
+      setInfo(data.message || "OTP sent if the account exists.");
+      toast.message("Check your email for the OTP");
+    } catch {
+      setLoginError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function submitForgotReset(e: FormEvent) {
+    e.preventDefault();
+    setLoginError("");
+    setInfo("");
+    if (forgotPassword !== forgotConfirm) {
+      setLoginError("Passwords do not match");
+      toast.error("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail, otp: forgotOtp, newPassword: forgotPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.error || "Could not reset password";
+        setLoginError(msg);
+        toast.error(msg);
+        return;
+      }
+      setForgotStep("off");
+      setTab("login");
+      setLoginEmail(forgotEmail);
+      setForgotOtp("");
+      setForgotPassword("");
+      setForgotConfirm("");
+      toast.success("Password updated — please log in");
+      setInfo("Password updated. Please log in.");
+    } catch {
+      setLoginError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function openForgot() {
+    setForgotStep("email");
+    setForgotEmail(loginEmail);
+    setLoginError("");
+    setInfo("");
+    setOtpPending(false);
+  }
+
+  function closeForgot() {
+    setForgotStep("off");
+    setForgotOtp("");
+    setForgotPassword("");
+    setForgotConfirm("");
+    setLoginError("");
+    setInfo("");
+  }
+
   if (user) {
     return (
       <StoreShell>
@@ -214,11 +304,14 @@ export default function AccountPage() {
     <StoreShell>
       <SiteHeader showSearch={false} />
       <div className="account-page">
-        <h2>My Account</h2>
+        <div className="auth-card">
+          <p className="auth-card-eyebrow">Welcome</p>
+          <h2>My Account</h2>
+          <p className="auth-card-sub">Log in or create an account to track orders and checkout faster.</p>
 
         {otpPending ? (
           <>
-            <h3 style={{ textAlign: "center", fontSize: 18, marginTop: 8 }}>Verify your email</h3>
+            <h3 className="auth-card-title">Verify your email</h3>
             <p className="account-note">Enter the 6-digit OTP sent to {otpEmail}.</p>
             <form onSubmit={doVerifyOtp}>
               <div className="form-group">
@@ -235,11 +328,11 @@ export default function AccountPage() {
                   required
                 />
               </div>
-              <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading || otpValue.length !== 6}>
+              <button className="btn btn-accent btn-block" type="submit" disabled={loading || otpValue.length !== 6}>
                 {loading ? "Verifying…" : "Verify & Login"}
               </button>
             </form>
-            <div className="auth-modal-otp-actions" style={{ marginTop: 12 }}>
+            <div className="auth-modal-otp-actions">
               <button type="button" className="auth-modal-link" onClick={doResendOtp} disabled={resending}>
                 {resending ? "Resending…" : "Resend OTP"}
               </button>
@@ -253,6 +346,84 @@ export default function AccountPage() {
                   setInfo("");
                 }}
               >
+                Back to login
+              </button>
+            </div>
+            {info ? <p className="auth-modal-info">{info}</p> : null}
+            {loginError ? <p className="account-error">{loginError}</p> : null}
+          </>
+        ) : forgotStep !== "off" ? (
+          <>
+            <h3 className="auth-card-title">Forgot password</h3>
+            <p className="account-note">
+              {forgotStep === "email"
+                ? "Enter your account email. We’ll send a one-time OTP."
+                : `Enter the OTP sent to ${forgotEmail} and choose a new password.`}
+            </p>
+            {forgotStep === "email" ? (
+              <form onSubmit={requestForgotOtp}>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
+                  {loading ? "Sending…" : "Send OTP"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={submitForgotReset}>
+                <div className="form-group">
+                  <label>OTP</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    className="otp-input"
+                    value={forgotOtp}
+                    onChange={(e) => setForgotOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>New password</label>
+                  <input
+                    type="password"
+                    value={forgotPassword}
+                    onChange={(e) => setForgotPassword(e.target.value)}
+                    minLength={6}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Confirm password</label>
+                  <input
+                    type="password"
+                    value={forgotConfirm}
+                    onChange={(e) => setForgotConfirm(e.target.value)}
+                    minLength={6}
+                    required
+                  />
+                </div>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading || forgotOtp.length !== 6}>
+                  {loading ? "Updating…" : "Reset password"}
+                </button>
+              </form>
+            )}
+            <div className="auth-modal-otp-actions">
+              {forgotStep === "reset" ? (
+                <button type="button" className="auth-modal-link" onClick={() => setForgotStep("email")} disabled={loading}>
+                  Resend / change email
+                </button>
+              ) : (
+                <span />
+              )}
+              <button type="button" className="auth-modal-link" onClick={closeForgot}>
                 Back to login
               </button>
             </div>
@@ -296,7 +467,10 @@ export default function AccountPage() {
                   <label>Password</label>
                   <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="Your password" required />
                 </div>
-                <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading}>
+                <button type="button" className="auth-modal-link forgot-link" onClick={openForgot}>
+                  Forgot password?
+                </button>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
                   {loading ? "Please wait…" : "Log in"}
                 </button>
                 {info ? <p className="auth-modal-info">{info}</p> : null}
@@ -316,7 +490,7 @@ export default function AccountPage() {
                   <label>Password</label>
                   <input type="password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} placeholder="At least 6 characters" required minLength={6} />
                 </div>
-                <button className="btn btn-accent" style={{ width: "100%" }} type="submit" disabled={loading}>
+                <button className="btn btn-accent btn-block" type="submit" disabled={loading}>
                   {loading ? "Please wait…" : "Create account"}
                 </button>
                 {signupError ? <p className="account-error">{signupError}</p> : null}
@@ -324,6 +498,7 @@ export default function AccountPage() {
             )}
           </>
         )}
+        </div>
       </div>
       <SiteFooter />
     </StoreShell>

@@ -81,3 +81,21 @@ export async function sendWelcomeEmail(user: { name: string; email: string }) {
     html: `<p>Hi ${user.name}, your jonacart account is ready. Happy shopping!</p>`,
   });
 }
+
+export async function sendPasswordResetOtpEmail(user: { name: string; email: string }, otp: string) {
+  if (!transporter) return;
+
+  await transporter.sendMail({
+    from: `"jonacart" <${EMAIL_USER}>`,
+    to: user.email,
+    subject: "Reset your jonacart password",
+    html: `
+      <div style="font-family:Inter,Arial,sans-serif;max-width:560px;margin:0 auto;">
+        <h2 style="color:#0d5c53;">Password reset</h2>
+        <p>Hi ${user.name}, use the OTP below to reset your jonacart password.</p>
+        <p style="font-size:32px;font-weight:800;letter-spacing:6px;margin:20px 0;">${otp}</p>
+        <p>This OTP is valid for 10 minutes. If you didn't request a reset, you can ignore this email.</p>
+      </div>
+    `,
+  });
+}

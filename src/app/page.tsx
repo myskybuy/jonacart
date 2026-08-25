@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import BrandLogo from "@/components/BrandLogo";
 import FestivePopup from "@/components/FestivePopup";
 import ProductCard, { Product } from "@/components/ProductCard";
 import SafeImage from "@/components/SafeImage";
@@ -94,7 +95,7 @@ export default function HomePage() {
         </div>
 
         <div className="hero-copy">
-          <p className="hero-brand">jonacart</p>
+          <BrandLogo variant="dark" priority height={96} className="hero-brand-logo" />
           <h1>
             Gifts that feel
             <br />

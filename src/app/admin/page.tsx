@@ -28,7 +28,7 @@ export default function AdminLoginPage() {
       <div className="login-shell">
         <form className="login-box" onSubmit={onSubmit}>
           <div className="brand">
-            <span>JONA</span>CART
+            <img src="/images/brand/jonacart-logo.png" alt="jonacart" className="admin-brand-logo" width="110" height="168" />
           </div>
           <h1>Admin Login</h1>
           <div className="form-row">

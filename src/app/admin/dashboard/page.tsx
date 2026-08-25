@@ -149,7 +149,7 @@ export default function AdminDashboard() {
       <div className="admin-shell">
         <div className="sidebar">
           <div className="brand">
-            <span>JONA</span>CART
+            <img src="/images/brand/jonacart-logo.png" alt="jonacart" className="admin-brand-logo" width="92" height="140" />
           </div>
           {["products", "categories", "coupons", "banner", "orders", "customers"].map((t) => (
             <a key={t} className={`nav-link ${tab === t ? "active" : ""}`} onClick={() => switchTab(t)}>

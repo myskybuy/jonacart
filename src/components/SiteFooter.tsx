@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import { COMPANY } from "@/lib/policies";
 
 export default function SiteFooter() {
@@ -9,7 +10,7 @@ export default function SiteFooter() {
       <div className="footer-inner">
         <div className="footer-brand">
           <div className="footer-brand-copy">
-            <p className="footer-wordmark">jonacart</p>
+            <BrandLogo height={72} className="footer-logo" />
             <p className="footer-tagline">
               Thoughtful gifts with real photos, clear ₹ pricing, and Cash on Delivery —
               curated for Indian occasions.

@@ -63,15 +63,24 @@ header.site-header {
   max-width: 1280px;
   margin: 0 auto;
 }
-.logo { display: flex; align-items: center; gap: 0; font-family: var(--font-body); font-weight: 800; font-size: 18px; letter-spacing: 0.3px; flex-shrink: 0; }
-.logo .logo-my {
-  background: var(--color-primary);
-  color: #fff;
-  padding: 6px 11px;
-  border-radius: var(--radius-sm) 4px 4px var(--radius-sm);
-  font-weight: 800;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 0;
 }
-.logo .logo-cart { color: var(--color-text); font-weight: 800; padding-left: 6px; }
+.logo .brand-logo,
+.brand-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 72px;
+  object-fit: contain;
+}
+.footer-logo {
+  max-height: 80px;
+  margin-bottom: 12px;
+}
 nav.main-nav { display: flex; gap: 16px; flex-wrap: wrap; }
 nav.main-nav a {
   position: relative;
@@ -293,6 +302,12 @@ nav.main-nav a:hover { color: var(--color-primary); }
   letter-spacing: -0.03em;
   line-height: 0.95;
   color: #fff;
+  animation: heroRise 0.85s ease 0.05s both;
+}
+.hero-brand-logo {
+  margin: 0 0 18px;
+  max-height: 96px;
+  width: auto;
   animation: heroRise 0.85s ease 0.05s both;
 }
 .hero h1 {
@@ -704,6 +719,10 @@ footer.site-footer {
   line-height: 1;
   color: var(--color-text);
 }
+.footer-brand-copy .brand-logo {
+  display: block;
+  margin: 0 0 12px;
+}
 .footer-tagline {
   margin: 0;
   font-size: 15px;
@@ -1004,7 +1023,8 @@ footer.site-footer {
   .search-wrap-desktop { display: none; }
   nav.main-nav-desktop { display: none; }
   .nav-toggle { display: inline-flex; }
-  .header-inner { flex-wrap: nowrap; gap: 12px; padding: 12px 16px; }
+  .logo .brand-logo { max-height: 56px; }
+  .hero-brand-logo { max-height: 72px; }
   .mobile-nav-drawer {
     display: block;
     position: fixed;

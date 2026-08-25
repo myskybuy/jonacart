@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import BrandLogo from "./BrandLogo";
 import { useCart } from "./CartProvider";
 
 type User = { id: number; name: string; email: string };
@@ -56,9 +57,8 @@ export default function SiteHeader({ showSearch = true }: { showSearch?: boolean
   return (
     <header className="site-header">
       <div className="header-inner">
-        <Link href="/" className="logo" onClick={() => setMenuOpen(false)}>
-          <span className="logo-my">JONA</span>
-          <span className="logo-cart">CART.</span>
+        <Link href="/" className="logo" onClick={() => setMenuOpen(false)} aria-label="jonacart home">
+          <BrandLogo priority height={72} />
         </Link>
         {showSearch ? (
           <form onSubmit={onSearch} className="search-wrap search-wrap-desktop">

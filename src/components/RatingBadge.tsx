@@ -2,7 +2,7 @@
 
 export function RatingBadge({ rating, count }: { rating: number; count?: number }) {
   if (!rating && !count) {
-    return <span className="rating-badge rating-badge--empty">Not rated yet</span>;
+    return null;
   }
   return (
     <span className="rating-badge" aria-label={`Rated ${rating} out of 5`}>

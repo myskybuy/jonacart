@@ -138,9 +138,11 @@ export default function ProductPage() {
         <div className="product-info">
           <span className="brand">{product.brand}</span>
           <h1>{product.name}</h1>
-          <a href="#reviews" className="pdp-rating-link">
-            <RatingBadge rating={ratingSummary.avgRating} count={ratingSummary.reviewCount} />
-          </a>
+          {ratingSummary.reviewCount > 0 ? (
+            <a href="#reviews" className="pdp-rating-link">
+              <RatingBadge rating={ratingSummary.avgRating} count={ratingSummary.reviewCount} />
+            </a>
+          ) : null}
           <div className="price-row">
             <span className="price-now">₹{product.salePrice}</span>
             {product.price > product.salePrice ? <span className="price-old">₹{product.price}</span> : null}

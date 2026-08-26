@@ -31,60 +31,28 @@ export default function FestivePopup() {
 
   if (!open || !banner) return null;
 
+  function dismiss() {
+    setOpen(false);
+    localStorage.setItem("jonacart_popup_dismissed", new Date().toDateString());
+  }
+
   return (
-    <div
-      style={{
-        display: "flex",
-        position: "fixed",
-        inset: 0,
-        background: "rgba(20,24,26,0.55)",
-        zIndex: 100,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: 16,
-          maxWidth: 400,
-          width: "90%",
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <button
-          onClick={() => {
-            setOpen(false);
-            localStorage.setItem("jonacart_popup_dismissed", new Date().toDateString());
-          }}
-          style={{
-            position: "absolute",
-            top: 10,
-            right: 12,
-            background: "rgba(0,0,0,0.4)",
-            color: "#fff",
-            border: "none",
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            fontSize: 16,
-            cursor: "pointer",
-            zIndex: 2,
-          }}
-        >
+    <div className="gift-popup-overlay" role="dialog" aria-modal="true" aria-label={banner.title}>
+      <div className="gift-popup">
+        <button type="button" className="gift-popup-close" onClick={dismiss} aria-label="Close">
           ×
         </button>
-        <img src={banner.image} alt="" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover" }} />
-        <div style={{ padding: 20, textAlign: "center" }}>
-          <h3 style={{ margin: "0 0 6px", textTransform: "none", fontFamily: "Inter,sans-serif", fontWeight: 800 }}>
-            {banner.title}
-          </h3>
-          <p style={{ color: "var(--color-muted)", fontSize: 14, margin: "0 0 16px" }}>{banner.subtitle}</p>
-          <Link href={banner.buttonLink.replace("/shop.html", "/shop")} className="btn btn-accent">
-            {banner.buttonText}
-          </Link>
-        </div>
+        {banner.image ? (
+          <div className="gift-popup-badge">
+            <img src={banner.image} alt="" />
+          </div>
+        ) : null}
+        <p className="gift-popup-kicker">A little something for you</p>
+        <h3>{banner.title}</h3>
+        <p className="gift-popup-subtitle">{banner.subtitle}</p>
+        <Link href={banner.buttonLink.replace("/shop.html", "/shop")} className="btn btn-accent" onClick={dismiss}>
+          {banner.buttonText}
+        </Link>
       </div>
     </div>
   );

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import BrandLogo from "@/components/BrandLogo";
 import FestivePopup from "@/components/FestivePopup";
 import ProductCard, { Product } from "@/components/ProductCard";
 import SafeImage from "@/components/SafeImage";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
+import { RatingBadge } from "@/components/RatingBadge";
 
 const heroAllowedCategories = [
   "Personalised Gifts",
@@ -17,6 +17,86 @@ const heroAllowedCategories = [
   "Lifestyle Gifts",
   "Kids Gifts",
 ];
+
+const PROMISES = [
+  {
+    title: "Free gift wrapping",
+    desc: "Every order leaves nicely packed, ready to hand over",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <rect x="3" y="8" width="18" height="13" rx="1.5" />
+        <path d="M3 12h18" />
+        <path d="M12 8v13" />
+        <path d="M12 8c-2-3-6-3-6 0s4 0 6 0z" />
+        <path d="M12 8c2-3 6-3 6 0s-4 0-6 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Cash on delivery",
+    desc: "Pay when your gift arrives, anywhere in India",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <rect x="2" y="6" width="20" height="13" rx="2" />
+        <circle cx="12" cy="12.5" r="3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Curated & quality-checked",
+    desc: "Every gift is picked and inspected before listing",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M9 12l2 2 4-4" />
+        <circle cx="12" cy="12" r="9" />
+      </svg>
+    ),
+  },
+  {
+    title: "Pan-India delivery",
+    desc: "From metros to small towns, we reach your loved ones",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M3 7h11v10H3z" />
+        <path d="M14 10h4l3 3v4h-7z" />
+        <circle cx="7.5" cy="19" r="1.6" />
+        <circle cx="17.5" cy="19" r="1.6" />
+      </svg>
+    ),
+  },
+];
+
+const OCCASION_TILES = [
+  {
+    kicker: "For someone special",
+    title: "The Personalised Edit",
+    cta: "Shop personalised",
+    href: "/shop?category=Personalised%20Gifts",
+    className: "occasion-tile--plum",
+  },
+  {
+    kicker: "Season's best",
+    title: "Festive Gifting Guide",
+    cta: "Shop festive",
+    href: "/shop?category=Festive%20Gifts",
+    className: "occasion-tile--amber",
+  },
+  {
+    kicker: "Great value",
+    title: "Deals up to 50% off",
+    cta: "Shop deals",
+    href: "/shop?sale=1",
+    className: "occasion-tile--ink",
+  },
+];
+
+type RecentReview = {
+  id: number;
+  rating: number;
+  comment: string;
+  userName: string;
+  product: { id: number; name: string; image: string };
+};
 
 const CATEGORY_FALLBACKS: Record<string, string> = {
   "Personalised Gifts": "/images/categories/personalised.svg",
@@ -31,6 +111,14 @@ export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [heroProducts, setHeroProducts] = useState<Product[]>([]);
   const [heroIndex, setHeroIndex] = useState(0);
+  const [recentReviews, setRecentReviews] = useState<RecentReview[]>([]);
+
+  useEffect(() => {
+    fetch("/api/reviews/recent?limit=6")
+      .then((r) => r.json())
+      .then(setRecentReviews)
+      .catch(() => setRecentReviews([]));
+  }, []);
 
   useEffect(() => {
     fetch("/api/categories")
@@ -95,7 +183,6 @@ export default function HomePage() {
         </div>
 
         <div className="hero-copy">
-          <BrandLogo variant="dark" priority height={96} className="hero-brand-logo" />
           <h1>
             Gifts that feel
             <br />
@@ -161,6 +248,22 @@ export default function HomePage() {
         ) : null}
       </section>
 
+      <section className="promise-strip">
+        <div className="container promise-strip-inner">
+          {PROMISES.map((p) => (
+            <div className="promise-item" key={p.title}>
+              <span className="promise-icon" aria-hidden>
+                {p.icon}
+              </span>
+              <div>
+                <strong>{p.title}</strong>
+                <span>{p.desc}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -184,6 +287,20 @@ export default function HomePage() {
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
+          <div className="occasion-grid">
+            {OCCASION_TILES.map((tile) => (
+              <Link key={tile.title} href={tile.href} className={`occasion-tile ${tile.className}`}>
+                <span className="occasion-tile-kicker">{tile.kicker}</span>
+                <span className="occasion-tile-title">{tile.title}</span>
+                <span className="occasion-tile-cta">{tile.cta} →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
           <div className="section-head">
             <div>
               <div className="eyebrow">Freshly curated</div>
@@ -194,6 +311,56 @@ export default function HomePage() {
           <div className="product-grid">{products.slice(0, 8).map((p) => <ProductCard key={p.id} product={p} />)}</div>
         </div>
       </section>
+
+      {products.length > 8 ? (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">Just landed</div>
+                <h2>New arrivals worth a look.</h2>
+              </div>
+              <Link href="/shop">View all →</Link>
+            </div>
+            <div className="product-grid">
+              {[...products]
+                .reverse()
+                .slice(0, 6)
+                .map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {recentReviews.length ? (
+        <section className="section testimonial-strip" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">Loved by gifters</div>
+                <h2>Notes from happy customers.</h2>
+              </div>
+            </div>
+            <div className="testimonial-grid">
+              {recentReviews.map((r) => (
+                <div className="testimonial-card" key={r.id}>
+                  <RatingBadge rating={r.rating} />
+                  <p className="testimonial-comment">&ldquo;{r.comment}&rdquo;</p>
+                  <div className="testimonial-meta">
+                    <SafeImage src={r.product.image} alt="" className="testimonial-product-img" />
+                    <div>
+                      <strong>{r.userName}</strong>
+                      <Link href={`/product/${r.product.id}`}>{r.product.name}</Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <div className="cta-band">
         <div className="eyebrow">Explore our gifting catalogue</div>

@@ -143,11 +143,24 @@ export default function ProductPage() {
               <RatingBadge rating={ratingSummary.avgRating} count={ratingSummary.reviewCount} />
             </a>
           ) : null}
+          {product.occasionTags ? <span className="occasion-pill">{product.occasionTags}</span> : null}
           <div className="price-row">
             <span className="price-now">₹{product.salePrice}</span>
             {product.price > product.salePrice ? <span className="price-old">₹{product.price}</span> : null}
           </div>
           <p className="product-desc">{product.description}</p>
+          {product.personalizationInfo ? (
+            <div className="personalize-note">
+              <strong>Personalised item</strong>
+              <p>{product.personalizationInfo}</p>
+            </div>
+          ) : null}
+          {product.whatsIncluded ? (
+            <details className="pdp-details">
+              <summary>What&apos;s included</summary>
+              <p>{product.whatsIncluded}</p>
+            </details>
+          ) : null}
           <div className="qty-row">
             <span className="qty-label">Quantity</span>
             <div className="qty-stepper" role="group" aria-label="Quantity">

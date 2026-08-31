@@ -1,5 +1,5 @@
 export const COMPANY = {
-  name: "JOHNACART PRIVATE LIMITED",
+  name: "JONARK PRIVATE LIMITED",
   brand: "jonacart",
   address:
     "2nd Floor, Building/Flat No. 208, Rangila Park, Sudama Chowk, Mota Varachha, Surat, Gujarat – 394101",

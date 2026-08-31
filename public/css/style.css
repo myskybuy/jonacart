@@ -1712,6 +1712,40 @@ footer.site-footer {
 .wishlist-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .wishlist-toggle.on { border-color: var(--color-accent); color: var(--color-accent-dark); background: var(--color-accent-tint); }
 .pdp-rating-link { display: inline-block; margin: 8px 0 12px; }
+.occasion-pill {
+  display: inline-block;
+  width: fit-content;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-tint);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 8px;
+}
+.personalize-note {
+  background: var(--color-accent-tint);
+  border: 1px dashed var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin: 14px 0;
+}
+.personalize-note strong { display: block; font-size: 12.5px; color: var(--color-accent-dark); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.personalize-note p { margin: 0; font-size: 13.5px; color: var(--color-text); line-height: 1.6; }
+.pdp-details { margin: 14px 0; }
+.pdp-details summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  list-style: none;
+}
+.pdp-details summary::-webkit-details-marker { display: none; }
+.pdp-details p { font-size: 13.5px; color: var(--color-muted); line-height: 1.6; margin: 10px 0 0; }
 
 /* ---------- Rating badge ---------- */
 .rating-badge {

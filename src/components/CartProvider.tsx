@@ -24,6 +24,10 @@ type CartContextValue = {
 const CART_KEY = "jonacart_cart";
 const CartContext = createContext<CartContextValue | null>(null);
 
+function persist(cart: CartItem[]) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
@@ -36,25 +40,34 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  }, [cart]);
-
   const value = useMemo<CartContextValue>(() => {
     const addToCart = (product: Omit<CartItem, "qty">, qty = 1) => {
       setCart((prev) => {
         const existing = prev.find((i) => i.id === product.id);
-        if (existing) {
-          return prev.map((i) => (i.id === product.id ? { ...i, qty: i.qty + qty } : i));
-        }
-        return [...prev, { ...product, qty }];
+        const next = existing
+          ? prev.map((i) => (i.id === product.id ? { ...i, qty: i.qty + qty } : i))
+          : [...prev, { ...product, qty }];
+        persist(next);
+        return next;
       });
     };
 
-    const removeFromCart = (id: number) => setCart((prev) => prev.filter((i) => i.id !== id));
+    const removeFromCart = (id: number) =>
+      setCart((prev) => {
+        const next = prev.filter((i) => i.id !== id);
+        persist(next);
+        return next;
+      });
     const updateQty = (id: number, qty: number) =>
-      setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, qty) } : i)));
-    const clearCart = () => setCart([]);
+      setCart((prev) => {
+        const next = prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, qty) } : i));
+        persist(next);
+        return next;
+      });
+    const clearCart = () => {
+      setCart([]);
+      persist([]);
+    };
     const cartTotal = cart.reduce((sum, i) => sum + i.salePrice * i.qty, 0);
     const cartCount = cart.reduce((sum, i) => sum + i.qty, 0);
     const isInCart = (id: number) => cart.some((i) => i.id === id);

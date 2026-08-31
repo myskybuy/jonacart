@@ -13,6 +13,9 @@ type Product = {
   image: string;
   stock: number;
   description: string;
+  whatsIncluded?: string;
+  occasionTags?: string;
+  personalizationInfo?: string;
 };
 
 type Category = { id: number; name: string; image: string };
@@ -310,7 +313,7 @@ export default function AdminDashboard() {
         <div className="modal-overlay open">
           <div className="modal-box">
             <h2>{editProduct.id ? "Edit product" : "Add product"}</h2>
-            {["name", "brand", "image", "description"].map((field) => (
+            {["name", "brand", "image", "description", "whatsIncluded", "occasionTags", "personalizationInfo"].map((field) => (
               <div className="form-row" key={field}>
                 <label>{field}</label>
                 <input value={(editProduct as Record<string, string>)[field] || ""} onChange={(e) => setEditProduct({ ...editProduct, [field]: e.target.value })} />

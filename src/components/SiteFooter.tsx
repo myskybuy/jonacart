@@ -62,7 +62,11 @@ export default function SiteFooter() {
           </div>
           <div className="footer-contact-item footer-contact-address">
             <span className="footer-contact-label">Registered office</span>
-            <p>{COMPANY.address}</p>
+            <p>
+              <strong>{COMPANY.name}</strong>
+              <br />
+              {COMPANY.address}
+            </p>
           </div>
         </div>
 

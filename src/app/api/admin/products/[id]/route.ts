@@ -23,6 +23,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       image: body.image,
       stock: Number(body.stock),
       description: body.description || "",
+      whatsIncluded: body.whatsIncluded || "",
+      occasionTags: body.occasionTags || "",
+      personalizationInfo: body.personalizationInfo || "",
     },
   });
   return NextResponse.json({ success: true, product });

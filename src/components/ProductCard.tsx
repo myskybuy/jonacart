@@ -18,6 +18,9 @@ export type Product = {
   image: string;
   stock: number;
   description: string;
+  whatsIncluded?: string;
+  occasionTags?: string;
+  personalizationInfo?: string;
   avgRating?: number;
   reviewCount?: number;
 };

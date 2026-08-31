@@ -21,6 +21,9 @@ export async function POST(req: NextRequest) {
       image: body.image || "https://picsum.photos/500",
       stock: Number(body.stock),
       description: body.description || "",
+      whatsIncluded: body.whatsIncluded || "",
+      occasionTags: body.occasionTags || "",
+      personalizationInfo: body.personalizationInfo || "",
     },
   });
   return NextResponse.json({ success: true, product });

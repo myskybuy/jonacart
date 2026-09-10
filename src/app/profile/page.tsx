@@ -9,7 +9,12 @@ import SiteHeader from "@/components/SiteHeader";
 import StoreShell from "@/components/StoreShell";
 
 type User = { id: number; name: string; email: string; phone?: string; address?: string };
-type Order = { id: number; total: number; status: string; createdAt: string; items: unknown[]; paymentMethod?: string };
+type OrderItem = { id: number; name: string; image: string; salePrice: number; qty: number };
+type Order = { id: number; total: number; status: string; createdAt: string; items: OrderItem[]; paymentMethod?: string };
+
+function orderCode(id: number) {
+  return `JNC-ORD-${String(id).padStart(6, "0")}`;
+}
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -182,24 +187,43 @@ export default function ProfilePage() {
           <div className="profile-panel">
             <h3 className="profile-section-title">Your orders</h3>
             {orders.length ? (
-              orders.map((o) => (
-                <div key={o.id} className="order-card">
-                  <div className="order-head">
-                    <span>Order #{o.id}</span>
-                    <span className={`status-tag ${o.status}`}>{o.status}</span>
+              orders.map((o) => {
+                const items = Array.isArray(o.items) ? o.items : [];
+                const first = items[0];
+                return (
+                  <div key={o.id} className="order-card">
+                    <div className="order-head">
+                      {first ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                          <img
+                            src={first.image}
+                            alt=""
+                            style={{ width: 40, height: 40, borderRadius: 8, objectFit: "cover", flexShrink: 0 }}
+                          />
+                          <span style={{ fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {first.name}
+                            {items.length > 1 ? ` + ${items.length - 1} more` : ""}
+                          </span>
+                        </div>
+                      ) : (
+                        <span>{orderCode(o.id)}</span>
+                      )}
+                      <span className={`status-tag ${o.status}`}>{o.status}</span>
+                    </div>
+                    <div style={{ color: "var(--color-muted)", fontSize: 13.5, marginBottom: 6 }}>
+                      {orderCode(o.id)} ·{" "}
+                      {new Date(o.createdAt).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}{" "}
+                      · {items.length} item(s)
+                      {o.paymentMethod ? ` · ${o.paymentMethod}` : ""}
+                    </div>
+                    <div style={{ fontWeight: 700 }}>₹{o.total}</div>
                   </div>
-                  <div style={{ color: "var(--color-muted)", fontSize: 13.5, marginBottom: 6 }}>
-                    {new Date(o.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}{" "}
-                    · {Array.isArray(o.items) ? o.items.length : 0} item(s)
-                    {o.paymentMethod ? ` · ${o.paymentMethod}` : ""}
-                  </div>
-                  <div style={{ fontWeight: 700 }}>₹{o.total}</div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <p style={{ color: "var(--color-muted)" }}>
                 No orders yet. <Link href="/shop">Start shopping →</Link>
